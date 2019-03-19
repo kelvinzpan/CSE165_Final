@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeamColors : MonoBehaviour
 {
-    enum Teams { Blue, Red };
+    enum Team { Blue, Red };
 
     public Material blueMaterial;
     public Material blueHoverMaterial;
@@ -13,7 +13,7 @@ public class TeamColors : MonoBehaviour
     public Material redHoverMaterial;
     public Material redSelectedMaterial;
 
-    private Teams team;
+    private Team team;
 
     // Start is called before the first frame update
     void Start()
@@ -29,24 +29,42 @@ public class TeamColors : MonoBehaviour
 
     public void SetBlueTeam()
     {
-        team = Teams.Blue;
+        team = Team.Blue;
         SetBlueMaterial();
     }
 
     public void SetRedTeam()
     {
-        team = Teams.Red;
+        team = Team.Red;
         SetRedMaterial();
     }
 
     public bool IsBlueTeam()
     {
-        return (team == Teams.Blue);
+        return (team == Team.Blue);
     }
 
     public bool IsRedTeam()
     {
-        return (team == Teams.Red);
+        return (team == Team.Red);
+    }
+
+    public void SetDefaultMaterial()
+    {
+        if (team == Team.Blue) SetBlueMaterial();
+        else SetRedMaterial();
+    }
+
+    public void SetDefaultHoverMaterial()
+    {
+        if (team == Team.Blue) SetBlueHoverMaterial();
+        else SetRedHoverMaterial();
+    }
+
+    public void SetDefaultSelectedMaterial()
+    {
+        if (team == Team.Blue) SetBlueSelectedMaterial();
+        else SetRedSelectedMaterial();
     }
 
     public void SetBlueMaterial()

@@ -10,8 +10,8 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        blueCastle.GetComponent<TeamColors>().SetBlueMaterial();
-        redCastle.GetComponent<TeamColors>().SetRedMaterial();
+        blueCastle.GetComponent<TeamColors>().SetBlueTeam();
+        redCastle.GetComponent<TeamColors>().SetRedTeam();
     }
 
     // Update is called once per frame
