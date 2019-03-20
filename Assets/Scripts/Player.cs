@@ -137,12 +137,7 @@ public class Player : MonoBehaviour
 
             if (isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
-                float distFromCastle = (blueCastle.transform.position - hit.point).magnitude;
-                float spawnDist = blueCastle.GetComponent<BlueCastle>().spawnRange + blueCastle.GetComponent<BlueCastle>().castleDiameter / 2.0f;
-                if (distFromCastle <= spawnDist)
-                {
-                    blueCastle.GetComponent<BlueCastle>().SpawnSoldier(hit.point);
-                }
+                blueCastle.GetComponent<BlueCastle>().SpawnSoldier(hit.point);
             }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
