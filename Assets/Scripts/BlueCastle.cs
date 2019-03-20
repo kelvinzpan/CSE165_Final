@@ -32,7 +32,7 @@ public class BlueCastle : MonoBehaviour
 
     public void SpawnSoldier(Vector3 spawnLocation)
     {
-        if (spawnTimer >= spawnCooldown)
+        if (spawnTimer >= spawnCooldown && isInSpawnRange(spawnLocation))
         {
             GameObject newSoldier = GameObject.Instantiate(soldier);
             newSoldier.transform.position = spawnLocation;
@@ -50,5 +50,12 @@ public class BlueCastle : MonoBehaviour
     public void HideSpawnRange()
     {
         spawnRangeImage.gameObject.SetActive(false);
+    }
+
+    public bool isInSpawnRange(Vector3 location)
+    {
+        float distFromCastle = (this.transform.position - location).magnitude;
+        float spawnDist = spawnRange + castleDiameter / 2.0f;
+        return (distFromCastle <= spawnDist);
     }
 }
