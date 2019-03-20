@@ -1,10 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class Player : MonoBehaviour
 {
     public GameObject playerCameraContainer;
+    private GameObject rightHand;
+    private GameObject leftHand;
+
+    public Canvas leftControllerUI;
+
+    public Vector3 initialPos;
+    public Quaternion initialRot;
+    private bool isflightMode;
+
     public LineRenderer raycastLine;
     public LineRenderer rectangularSelectionLine;
     public GameObject rectangularSelectionBox;
@@ -28,6 +38,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         initialCameraForward = playerCameraContainer.transform.forward;
+
+        rightHand = playerCameraContainer.transform.GetChild(0).GetChild(2).gameObject;
+        leftHand = playerCameraContainer.transform.GetChild(0).GetChild(1).gameObject;
+
         rectangularSelectionLine.positionCount = 5;
         blueCastle.GetComponent<BlueCastle>().HideSpawnRange();
     }
@@ -35,10 +49,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 raycastStart = playerCameraContainer.transform.position;
-        Vector3 raycastDir = (playerCameraContainer.transform.rotation * initialCameraForward).normalized;
-        bool usingSelectInput = Input.GetMouseButton(1);
-        bool usingCommandInput = Input.GetMouseButton(0);
+        anchorUIToLeftController();
+        Vector3 raycastStart = rightHand.transform.position;
+        //Vector3 raycastDir = (playerCameraContainer.transform.rotation * initialCameraForward).normalized;
+        Vector3 raycastDir = rightHand.transform.forward.normalized;
+        // just need to show if its true (pressed or held down)
+        bool usingSelectInput = SteamVR_Input.GetBooleanAction("SelectInput").GetState(SteamVR_Input_Sources.RightHand);
+        // only want to know if pressed
+        bool usingCommandInput = SteamVR_Input.GetBooleanAction("CommandInput").GetStateDown(SteamVR_Input_Sources.RightHand);
 
         raycastLine.SetPosition(0, raycastStart + raycastOffset);
         raycastLine.SetPosition(1, raycastStart + raycastDir * raycastLength);
@@ -190,6 +208,8 @@ public class Player : MonoBehaviour
             rectangularSelectionLine.gameObject.SetActive(false);
             rectangularSelectionBox.gameObject.SetActive(false);
         }
+
+        listenAndExecuteFlying();
     }
 
     void hoverUnit(GameObject unit)
@@ -229,5 +249,61 @@ public class Player : MonoBehaviour
         foreach (GameObject selected in selectedUnits) selected.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Clear();
         isBlueCastleSelected = false;
+    }
+
+    /*---------Movement-----------*/
+
+    private Vector3 calculateCurrFramePositionDelta() {
+
+        return initialPos - leftHand.transform.localPosition;
+    }
+
+    private Quaternion calculateCurrFrameRotationDelta() {
+        return initialRot * Quaternion.Inverse(leftHand.transform.localRotation);
+    }
+
+    private void flyToPositionWithRotation(Vector3 deltaPos, Quaternion deltaRot) {
+        
+        playerCameraContainer.transform.position += playerCameraContainer.transform.right * -(deltaPos.x / 2.0f) 
+                                                    + playerCameraContainer.transform.up * -(deltaPos.y / 2.0f) 
+                                                    + playerCameraContainer.transform.forward * -(deltaPos.z / 2.0f);
+        deltaRot.x *= 0.0f;
+        deltaRot.z *= 0.0f;
+        deltaRot.y *= 0.1f;
+        playerCameraContainer.transform.rotation = Quaternion.Inverse(Quaternion.Slerp(Quaternion.identity, deltaRot, 0.1f)) * playerCameraContainer.transform.rotation;
+    }
+
+    void listenForFlightModeTriggerAndSavePosition() {
+        // Check if trigger value is 1.0 (pulled completely) and was not last active (first time triggered)
+        //Debug.Log(SteamVR_Input.GetSingleAction("FlyingTrigger").GetAxis(SteamVR_Input_Sources.LeftHand));
+        //Debug.Log(SteamVR_Input.GetSingleAction("FlyingTrigger").GetChanged(SteamVR_Input_Sources.LeftHand));
+        if (SteamVR_Input.GetSingleAction("FlyingTrigger").GetAxis(SteamVR_Input_Sources.LeftHand) >= 1.0f
+            && SteamVR_Input.GetSingleAction("FlyingTrigger").GetChanged(SteamVR_Input_Sources.LeftHand)) {
+            
+            initialPos = leftHand.transform.localPosition;
+            initialRot = leftHand.transform.localRotation;
+            isflightMode = true;
+        } else if(isflightMode && SteamVR_Input.GetSingleAction("FlyingTrigger").GetAxis(SteamVR_Input_Sources.LeftHand) < 1.0f){
+            isflightMode = false;    
+        }
+
+    }
+
+    void listenAndExecuteFlying() {
+        listenForFlightModeTriggerAndSavePosition();
+        if(isflightMode) {
+            Vector3 deltaPos = calculateCurrFramePositionDelta();
+            Quaternion deltaRot = calculateCurrFrameRotationDelta();
+            flyToPositionWithRotation(deltaPos, deltaRot);
+        }
+    }
+
+
+    /*----------VR UI-------------*/
+    void anchorUIToLeftController() {
+        leftControllerUI.transform.position = new Vector3(leftHand.transform.position.x, 
+                                                          leftHand.transform.position.y + 1.0f, 
+                                                          leftHand.transform.position.z);
+        leftControllerUI.transform.rotation = leftHand.transform.rotation;
     }
 }

@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.cse165_final.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "D:\\CSE Stuff\\cse165_final\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "CSE165_Final [Testing]"
+        }
+      }
+    }
+  ]
+}
