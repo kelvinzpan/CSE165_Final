@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
                     {
                         GameObject currObj = collider.gameObject;
 
-                        if (currObj.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Hover blue soldiers
+                        if (currObj && currObj.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Hover blue soldiers
                         {
                             hoverUnit(currObj);
                         }

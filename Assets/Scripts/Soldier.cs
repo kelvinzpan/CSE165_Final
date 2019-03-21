@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Soldier : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class Soldier : MonoBehaviour
     private AudioClip[] allClips;
     private AudioSource[] allSources;
 
+    public Image hpCircle;
+
     const string LAYER_CASTLE = "Castle";
     const string LAYER_SOLDIER = "Soldier";
     const string LAYER_FLOOR = "Floor";
@@ -60,6 +63,7 @@ public class Soldier : MonoBehaviour
 
         Defend(this.transform.position);
         currHP = maxHP;
+        hpCircle.gameObject.SetActive(false);
     }
 
     void attachAudioSource() {
@@ -188,6 +192,9 @@ public class Soldier : MonoBehaviour
         // Get shorter with lower HP
         float newSoldierHeight = (soldierHeight / 2.0f) * (1.0f + currHP / maxHP);
         this.transform.localScale = new Vector3(this.transform.localScale.x, newSoldierHeight, this.transform.localScale.z);
+
+        hpCircle.gameObject.SetActive(true);
+        hpCircle.fillAmount = currHP / maxHP;
 
         if (currHP <= 0.0f)
         {

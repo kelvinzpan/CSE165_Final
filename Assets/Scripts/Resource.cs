@@ -49,6 +49,9 @@ public class Resource : MonoBehaviour
     {
         float amountGathered = 0.0f;
 
+        int rand = Mathf.FloorToInt(Random.Range(0.0f, 2.99f));
+        this.GetComponents<AudioSource>()[rand].Play();
+
         if (currValue >= gatherAmount)
         {
             currValue -= gatherAmount;

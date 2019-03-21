@@ -3580,7 +3580,6 @@ GameObject:
   - component: {fileID: 1900280194}
   - component: {fileID: 1900280198}
   - component: {fileID: 1900280199}
-  - component: {fileID: 1900280200}
   - component: {fileID: 1900280201}
   m_Layer: 11
   m_Name: Blue Castle
@@ -3717,55 +3716,6 @@ MonoBehaviour:
     type: 3}
   resourceCount: {fileID: 1992437937}
   resourceCosts: {fileID: 428734910}
---- !u!114 &1900280200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900280193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15cb233c1411e134a9a2a7366017bd7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soldier: {fileID: 0}
-  height: 0
-  diameter: 0
 --- !u!82 &1900280201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4138,7 +4088,6 @@ GameObject:
   - component: {fileID: 2083182579}
   - component: {fileID: 2083182578}
   - component: {fileID: 2083182583}
-  - component: {fileID: 2083182584}
   - component: {fileID: 2083182585}
   - component: {fileID: 2083182586}
   m_Layer: 11
@@ -4262,55 +4211,6 @@ MonoBehaviour:
   spawnCooldown: 10
   explosionParticles: {fileID: 2253597540774317650, guid: 49b22e23274c68d41bc8ad7bc89f7671,
     type: 3}
---- !u!114 &2083182584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083182577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15cb233c1411e134a9a2a7366017bd7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soldier: {fileID: 0}
-  height: 0
-  diameter: 0
 --- !u!82 &2083182585
 AudioSource:
   m_ObjectHideFlags: 0
