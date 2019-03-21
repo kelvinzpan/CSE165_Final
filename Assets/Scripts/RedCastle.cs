@@ -15,6 +15,10 @@ public class RedCastle : MonoBehaviour
     private float currHP;
     private float spawnTimer = 0.0f;
 
+    private bool useShittyAI = false;
+    private bool justSpawned = false;
+    private Soldier prevSoldier;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +31,32 @@ public class RedCastle : MonoBehaviour
     void Update()
     {
         spawnTimer = Mathf.Min(spawnTimer + Time.deltaTime, spawnCooldown);
+
+        if (useShittyAI)
+        {
+            if (justSpawned)
+            {
+                Vector3 range = new Vector3(Random.Range(-50.0f, 50.0f),
+                                            0.0f,
+                                            Random.Range(-20.0f, 20.0f));
+                prevSoldier.Defend(range);
+                justSpawned = false;
+            }
+
+            if (spawnTimer == spawnCooldown)
+            {
+                Vector3 range = new Vector3(Random.Range(-spawnRange, spawnRange),
+                                            Random.Range(-spawnRange, spawnRange),
+                                            Random.Range(-spawnRange, spawnRange));
+                prevSoldier = SpawnSoldierInRange(this.transform.position + range);
+                justSpawned = true;
+            }
+        }
+    }
+
+    public void UseShittyAI()
+    {
+        useShittyAI = true;
     }
 
     public Soldier SpawnSoldier(Vector3 spawnLocation)
@@ -71,6 +101,7 @@ public class RedCastle : MonoBehaviour
     public void Die()
     {
         // Win the game 
+        Debug.Log("Congrats, you won the game!");
     }
 
     public bool isInSpawnRange(Vector3 location)

@@ -117,6 +117,7 @@ public class BlueCastle : MonoBehaviour
     public void Die()
     {
         // Lose the game
+        Debug.Log("Oh no, you lost the game!");
     }
 
     public void ShowSpawnRange()

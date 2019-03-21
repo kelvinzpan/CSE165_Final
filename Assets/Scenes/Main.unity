@@ -1016,6 +1016,7 @@ MonoBehaviour:
   redCastle: {fileID: 2083182577}
   playerController: {fileID: 1405208107}
   resourceController: {fileID: 1772022894}
+  runTestNum: 0
 --- !u!1 &621631266
 GameObject:
   m_ObjectHideFlags: 0
@@ -3170,7 +3171,7 @@ MonoBehaviour:
   castleDiameter: 10
   maxHP: 100
   spawnRange: 20
-  spawnCooldown: 3
+  spawnCooldown: 10
 --- !u!114 &2083182584
 MonoBehaviour:
   m_ObjectHideFlags: 0
