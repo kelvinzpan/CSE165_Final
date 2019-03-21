@@ -232,7 +232,8 @@ public class Soldier : MonoBehaviour
                 }
                 else if (target.layer == LayerMask.NameToLayer(LAYER_CASTLE))
                 {
-                    // TODO Attack base
+                    if (target.GetComponent<TeamColors>().IsBlueTeam()) target.GetComponent<BlueCastle>().TakeDamage(attackDamage);
+                    else target.GetComponent<RedCastle>().TakeDamage(attackDamage);
                 }
 
                 attackTimer = attackSpeed;
