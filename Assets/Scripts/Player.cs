@@ -152,13 +152,20 @@ public class Player : MonoBehaviour
             }
             else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE)))
             {
-                blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
+                if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
+                {
+                    AttackWithSelectedUnits(hit.transform.gameObject);
+                }
+                else
+                {
+                    blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
+                }
             }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
                 DefendWithSelectedUnits(hit.point);
             }
-            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_SOLDIER, LAYER_CASTLE)))
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_SOLDIER)))
             {
                 if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
                 {
@@ -319,7 +326,8 @@ public class Player : MonoBehaviour
                         Vector3 defenseLocation = new Vector3(formationStart.x + j * soldierFormationSpacing + soldierWidth,
                                                               formationStart.y,
                                                               formationStart.z - i * soldierFormationSpacing - soldierLength);
-                        selectedSoldiers[soldierIndex].Defend(defenseLocation);
+                        // selectedSoldiers[soldierIndex].Defend(defenseLocation);
+                        selectedSoldiers[soldierIndex].Flee(defenseLocation); // Soldiers defend after fleeing to location
                     }
                 }
             }

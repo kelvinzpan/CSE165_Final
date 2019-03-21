@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Soldier : MonoBehaviour
 {
-    enum Command { Attacking, Defending, Gathering };
+    enum Command { Attacking, Defending, Gathering, Fleeing };
 
     public GameObject aggroBox;
     public float soldierHeight;
@@ -21,6 +21,7 @@ public class Soldier : MonoBehaviour
     private Vector2 defendTarget;
     private GameObject currAggroBox;
     private GameObject defendAggroTarget;
+    private Vector2 fleeTarget;
     private float currHP;
     private float attackTimer = 0.0f;
 
@@ -91,6 +92,17 @@ public class Soldier : MonoBehaviour
         {
             // TODO
         }
+        else if (currState == Command.Fleeing)
+        {
+            if (isAtLocation(fleeTarget))
+            {
+                Defend(this.transform.position);
+            }
+            else
+            {
+                MoveTowards(fleeTarget);
+            }
+        }
     }
 
     public void TakeDamage(float damageAmount)
@@ -124,6 +136,13 @@ public class Soldier : MonoBehaviour
         currAggroBox.transform.position = new Vector3(defendTarget.x, 0.0f, defendTarget.y);
     }
 
+    public void Flee(Vector3 location)
+    {
+        ClearCommandState();
+        currState = Command.Fleeing;
+        fleeTarget = new Vector2(location.x, location.z);
+    }
+
     private void ClearCommandState()
     {
         // Attack state
@@ -131,10 +150,12 @@ public class Soldier : MonoBehaviour
 
         // Defend state
         if (currAggroBox) Destroy(currAggroBox);
-        if (currAggroBox) Destroy(currAggroBox);
         if (defendAggroTarget) defendAggroTarget = null;
 
         // Gathering state
+
+        // Flee state
+        
     }
 
     private void MoveTowards(Vector2 location)
@@ -196,6 +217,12 @@ public class Soldier : MonoBehaviour
         Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
         Vector2 currPos = new Vector2(this.transform.position.x, this.transform.position.z);
         return (targetPos - currPos).magnitude <= attackRange;
+    }
+
+    private bool isAtLocation(Vector2 location)
+    {
+        Vector2 currPos = new Vector2(this.transform.position.x, this.transform.position.z);
+        return currPos == location;
     }
 
     private bool isSameTeam(GameObject target)

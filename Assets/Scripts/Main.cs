@@ -25,6 +25,7 @@ public class Main : MonoBehaviour
         */
 
         /* Soldier movement
+        redCastle.GetComponent<RedCastle>().SpawnSoldier(new Vector3(0.0f, 0.0f, 0.0f));
         for (int i = 0; i < 17; i++)
         {
             Soldier soldier = blueCastle.GetComponent<BlueCastle>().SpawnSoldier(new Vector3(i * 5.0f, 0.0f, 0.0f));
