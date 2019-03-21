@@ -97,7 +97,7 @@ public class Soldier : MonoBehaviour
             {
                 if (isInGatherRange(gatherBase))
                 {
-                    // TODO deposit resource
+                    gatherBase.GetComponent<BlueCastle>().AddResource(amountGathered);
                     amountGathered = 0.0f;
                 }
                 else

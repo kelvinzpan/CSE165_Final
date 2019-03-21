@@ -18,9 +18,14 @@ public class BlueCastle : MonoBehaviour
 
     public float castleHeight;
     public float castleDiameter;
+    public float maxHP;
+    public float maxResource;
+
     public float spawnRange;
     public float spawnCooldown;
 
+    private float currHP;
+    private float currResource = 0.0f;
     private float spawnTimer = 0.0f;
 
     // Start is called before the first frame update
@@ -32,6 +37,7 @@ public class BlueCastle : MonoBehaviour
         baseMenu.GetComponent<CanvasGroup>().alpha = 0.0f;
         this.transform.localScale = new Vector3(castleDiameter, castleHeight, castleDiameter);
         this.transform.position = new Vector3(this.transform.position.x, castleHeight, this.transform.position.z);
+        currHP = maxHP;
 
         spawnRangeImage.transform.localScale = new Vector3(castleDiameter + spawnRange * 2, castleDiameter + spawnRange * 2, 1.0f);
     }
@@ -66,6 +72,30 @@ public class BlueCastle : MonoBehaviour
         newSoldier.transform.position = spawnLocation;
         newSoldier.GetComponent<TeamColors>().SetBlueTeam();
         return newSoldier.GetComponent<Soldier>();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currHP = Mathf.Max(currHP - damage, 0.0f);
+
+        // Get shorter with lower HP
+        float newHeight = (castleHeight / 2.0f) * (1.0f + currHP / maxHP);
+        this.transform.localScale = new Vector3(this.transform.localScale.x, newHeight, this.transform.localScale.z);
+
+        if (currHP <= 0.0f)
+        {
+            Die();
+        }
+    }
+
+    public void AddResource(float resource)
+    {
+        currResource = Mathf.Min(currResource + resource, maxResource);
+    }
+
+    public void Die()
+    {
+        // Lose the game
     }
 
     public void ShowSpawnRange()

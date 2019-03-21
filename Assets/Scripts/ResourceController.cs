@@ -53,7 +53,7 @@ public class ResourceController : MonoBehaviour
         float zSpawn = Random.Range(-zSpawnRange, zSpawnRange);
         newRes.transform.position = new Vector3(xSpawn, newRes.transform.position.y, zSpawn);
 
-        float value = Random.Range(minValue, maxValue);
+        float value = Mathf.Ceil(Random.Range(minValue, maxValue));
         newRes.GetComponent<Resource>().SetMaxValue(value);
 
         resources.Add(newRes);
