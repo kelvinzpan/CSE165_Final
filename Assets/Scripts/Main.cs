@@ -8,6 +8,9 @@ public class Main : MonoBehaviour
     public GameObject redCastle;
     public GameObject playerController;
 
+    private bool runOnce = true;
+    private GameObject test;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,7 @@ public class Main : MonoBehaviour
 
         // TESTING
 
-        /* Soldier attack
+        /* Soldier defense (auto-attack)
         redCastle.GetComponent<RedCastle>().SpawnSoldier(new Vector3(0.0f, 0.0f, 0.0f));
         blueCastle.GetComponent<BlueCastle>().SpawnSoldier(new Vector3(14.0f, 0.0f, 0.0f));
         */
@@ -28,13 +31,33 @@ public class Main : MonoBehaviour
             playerController.GetComponent<Player>().selectUnit(soldier.gameObject);
         }
         */
+
+        /* Soldier attack 
+        test = redCastle.GetComponent<RedCastle>().SpawnSoldier(new Vector3(0.0f, 0.0f, 0.0f)).gameObject;
+        for (int i = 0; i < 3; i++)
+        {
+            Soldier soldier = blueCastle.GetComponent<BlueCastle>().SpawnSoldier(new Vector3(50.0f, 0.0f, i * 5.0f));
+            playerController.GetComponent<Player>().selectUnit(soldier.gameObject);
+        }
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        /* Soldier movement
-        playerController.GetComponent<Player>().DefendWithSelectedUnits(new Vector3(0.0f, 0.0f, 0.0f));
-        */
+        if (runOnce)
+        {
+            runOnce = false;
+
+            // TESTING
+
+            /* Soldier movement
+            playerController.GetComponent<Player>().DefendWithSelectedUnits(new Vector3(0.0f, 0.0f, 0.0f));
+            */
+
+            /* Soldier attack 
+            playerController.GetComponent<Player>().AttackWithSelectedUnits(test);
+            */
+        }
     }
 }

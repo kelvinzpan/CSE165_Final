@@ -107,12 +107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aggroBox: {fileID: 2633342284502693609, guid: 52f38b876223a0f44a91007415171c9f,
     type: 3}
-  soldierHeight: 4
+  soldierHeight: 6
   maxHP: 100
   aggroDist: 30
-  attackDamage: 20
-  attackRange: 3
-  attackSpeed: 1
+  attackDamage: 0.5
+  attackRange: 4
+  attackSpeed: 0.1
   moveSpeed: 0.2
 --- !u!114 &8342946935010627415
 MonoBehaviour:

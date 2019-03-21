@@ -145,6 +145,13 @@ public class Player : MonoBehaviour
             {
                 DefendWithSelectedUnits(hit.point);
             }
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_SOLDIER, LAYER_CASTLE)))
+            {
+                if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
+                {
+                    AttackWithSelectedUnits(hit.transform.gameObject);
+                }
+            }
         }
         else
         {
@@ -245,6 +252,16 @@ public class Player : MonoBehaviour
     }
 
     /*---------Unit Commands-----------*/
+
+    public void AttackWithSelectedUnits(GameObject target)
+    {foreach (GameObject unit in selectedUnits)
+        {
+            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            {
+                unit.GetComponent<Soldier>().Attack(target);
+            }
+        }
+    }
 
     public void DefendWithSelectedUnits(Vector3 location)
     {

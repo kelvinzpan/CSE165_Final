@@ -24,6 +24,10 @@ public class Soldier : MonoBehaviour
     private float currHP;
     private float attackTimer = 0.0f;
 
+    const string LAYER_CASTLE = "Castle";
+    const string LAYER_SOLDIER = "Soldier";
+    const string LAYER_FLOOR = "Floor";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +45,7 @@ public class Soldier : MonoBehaviour
 
         if (currState == Command.Attacking)
         {
-            if (attackTarget)
+            if (attackTarget && !isSameTeam(attackTarget))
             {
                 Engage(attackTarget);
             }
@@ -74,7 +78,7 @@ public class Soldier : MonoBehaviour
                     {
                         GameObject currObj = collider.gameObject;
 
-                        if (!this.GetComponent<TeamColors>().IsSameTeam(currObj.GetComponent<TeamColors>()))
+                        if (!isSameTeam(currObj))
                         {
                             defendAggroTarget = currObj;
                             break;
@@ -150,12 +154,23 @@ public class Soldier : MonoBehaviour
 
     private void Engage(GameObject target)
     {
-        if (isInAttackRange(target) && attackTimer <= 0.0f)
+        if (isInAttackRange(target))
         {
-            // TODO Play attack animation
+            if (attackTimer <= 0.0f)
+            {
+                // TODO Play attack animation
 
-            target.GetComponent<Soldier>().TakeDamage(attackDamage);
-            attackTimer = attackSpeed;
+                if (target.layer == LayerMask.NameToLayer(LAYER_SOLDIER))
+                {
+                    target.GetComponent<Soldier>().TakeDamage(attackDamage);
+                }
+                else if (target.layer == LayerMask.NameToLayer(LAYER_CASTLE))
+                {
+                    // TODO Attack base
+                }
+
+                attackTimer = attackSpeed;
+            }
         }
         else
         {
@@ -180,5 +195,10 @@ public class Soldier : MonoBehaviour
         Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
         Vector2 currPos = new Vector2(this.transform.position.x, this.transform.position.z);
         return (targetPos - currPos).magnitude <= attackRange;
+    }
+
+    private bool isSameTeam(GameObject target)
+    {
+        return this.GetComponent<TeamColors>().IsSameTeam(target.GetComponent<TeamColors>());
     }
 }

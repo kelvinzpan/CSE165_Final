@@ -25,7 +25,7 @@ public class RedCastle : MonoBehaviour
     {
         GameObject newSoldier = GameObject.Instantiate(soldier);
         newSoldier.transform.position = spawnLocation;
-        newSoldier.GetComponent<TeamColors>().SetBlueTeam();
+        newSoldier.GetComponent<TeamColors>().SetRedTeam();
         return newSoldier.GetComponent<Soldier>();
     }
 }
