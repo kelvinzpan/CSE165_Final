@@ -24,6 +24,8 @@ public class BlueCastle : MonoBehaviour
     public float spawnRange;
     public float spawnCooldown;
 
+    public GameObject meteor;
+
     private float currHP;
     private float currResource = 0.0f;
     private float spawnTimer = 0.0f;
@@ -86,6 +88,12 @@ public class BlueCastle : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void SummonMeteor(Vector2 location)
+    {
+        GameObject newMeteor = Instantiate(meteor);
+        newMeteor.transform.position = new Vector3(location.x, newMeteor.transform.position.y, location.y);
     }
 
     public void AddResource(float resource)

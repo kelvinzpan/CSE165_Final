@@ -247,6 +247,7 @@ public class Soldier : MonoBehaviour
 
     private void Die()
     {
+        Destroy(currAggroBox);
         Destroy(this.gameObject);
     }
 

@@ -2910,6 +2910,7 @@ MonoBehaviour:
   maxResource: 50
   spawnRange: 20
   spawnCooldown: 3
+  meteor: {fileID: 7801743379730620259, guid: 05823c8bd689ade4990fa703df94e96e, type: 3}
 --- !u!114 &1900280200
 MonoBehaviour:
   m_ObjectHideFlags: 0
