@@ -200,25 +200,19 @@ public class Player : MonoBehaviour
                     AttackWithSelectedUnits(hit.transform.gameObject);
                 }
             }
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_RESOURCE))) {
+                GatherWithSelectedUnits(hit.transform.gameObject);
+            }
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_SOLDIER))) {
+                if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam()) {
+                    AttackWithSelectedUnits(hit.transform.gameObject);
+                }
+            }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
                 DefendWithSelectedUnits(hit.point);
             }
-            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_SOLDIER)))
-            {
-                if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
-                {
-                    AttackWithSelectedUnits(hit.transform.gameObject);
-                }
-            }
-            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_RESOURCE)))
-            {
-                GatherWithSelectedUnits(hit.transform.gameObject);
-            }
-            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
-            {
-                blueCastle.GetComponent<BlueCastle>().toggleCurrentUnit();
-            }
+
         }
         else
         {
