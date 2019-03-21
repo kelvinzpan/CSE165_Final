@@ -8,8 +8,9 @@ public class BlueCastle : MonoBehaviour
     public Canvas baseUI;
 
     private GameObject baseMenu;
+    private GameObject fireBallSlider;
     private bool isRendered;
-    private int currUnitIndex;
+    private int currUnitIndex = -1;
 
     public Image spawnRangeImage;
     public GameObject soldier;
@@ -25,7 +26,9 @@ public class BlueCastle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        baseMenu = baseUI.transform.GetChild(0).gameObject;
+        baseMenu = GameObject.Find("Base Menu");
+        fireBallSlider = GameObject.Find("Base Menu/Slider");
+
         baseMenu.GetComponent<CanvasGroup>().alpha = 0.0f;
         this.transform.localScale = new Vector3(castleDiameter, castleHeight, castleDiameter);
         this.transform.position = new Vector3(this.transform.position.x, castleHeight, this.transform.position.z);
@@ -91,15 +94,17 @@ public class BlueCastle : MonoBehaviour
         isRendered = !isRendered;
     }
 
-    public void changeMenuLookAt(GameObject objToLookAt) {
-        baseUI.transform.rotation = Quaternion.LookRotation(transform.position - objToLookAt.transform.position);
-        //baseUI.transform.LookAt(objToLookAt.transform);
-    }
-
     public void toggleCurrentUnit() {
-        // 3 units just keep looping thru
-        currUnitIndex = currUnitIndex + 1 % 3;
+        // First time no unit is select4ed
+        if(currUnitIndex != -1) {
+            baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = new Color(50.0f, 255.0f, 0.0f);
+        }
+        currUnitIndex = (currUnitIndex + 1) % 3;
         soldier = unitRoster[currUnitIndex];
         baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = Color.green;
+    }
+
+    public void changeSliderValue(float value) {
+        fireBallSlider.GetComponent<Slider>().value += value;
     }
 }

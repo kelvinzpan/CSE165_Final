@@ -13,7 +13,9 @@ public class Player : MonoBehaviour
 
     public Vector3 initialPos;
     public Quaternion initialRot;
+    public Vector3 sliderInitialPos;
     private bool isflightMode;
+    private bool isDraggingSlider;
 
     public LineRenderer raycastLine;
     public LineRenderer rectangularSelectionLine;
@@ -63,6 +65,7 @@ public class Player : MonoBehaviour
         // only want to know if pressed
         bool usingCommandInput = SteamVR_Input.GetBooleanAction("CommandInput").GetStateDown(SteamVR_Input_Sources.RightHand);
 
+        bool selectHeldDown = (usingSelectInput && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateUp(SteamVR_Input_Sources.RightHand));
         raycastLine.SetPosition(0, raycastStart + raycastOffset);
         raycastLine.SetPosition(1, raycastStart + raycastDir * raycastLength);
 
@@ -101,6 +104,24 @@ public class Player : MonoBehaviour
                     }
                 }
             }
+            else if(selectHeldDown) 
+            {
+                RaycastHit hit;
+                Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
+                if (!isDraggingSlider) 
+                {
+                    if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
+                    {
+                        sliderInitialPos = rightHand.transform.localPosition;
+                        isDraggingSlider = true;
+                    }
+                }
+                else 
+                {
+                    Vector3 deltaPos = calculateCurrFramePositionDelta(rightHand);
+                    blueCastle.GetComponent<BlueCastle>().changeSliderValue(-deltaPos.x / 50.0f);
+                }
+            }
             else
             {
                 RaycastHit hit;
@@ -110,6 +131,15 @@ public class Player : MonoBehaviour
                     rectangularSelectingStart = hit.point;
                     rectangularSelectingEnd = hit.point;
                     isRectangularSelecting = true;
+                }
+                if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
+                {
+                    //if (currObj.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Select blue castle
+                    //{
+                    //    clearSelectedUnits();
+                    //    dehoverUnit(currObj);
+                    //    selectUnit(currObj);
+                    //}
                 }
 
                 if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE, LAYER_SOLDIER, LAYER_FLOOR, LAYER_UNIT_UI)))
@@ -132,20 +162,32 @@ public class Player : MonoBehaviour
                         dehoverUnit(currObj);
                         selectUnit(currObj);
                     }
-                    else if (currObj.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Select blue castle
-                    {
-                        clearSelectedUnits();
-                        dehoverUnit(currObj);
-                        selectUnit(currObj);
-                    }
                 }
 
             }
+
+            // release all boolean
+            if (SteamVR_Input.GetBooleanAction("CommandInput").GetStateUp(SteamVR_Input_Sources.RightHand)) 
+            {
+                isRectangularSelecting = false;
+                isBlueCastleSelected = false;
+                isUnitUISelected = false;
+            }
+
         }
         else if (usingCommandInput)
         {
             RaycastHit hit;
             Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
+
+            if(!isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE))) {
+                if(hit.transform.gameObject.GetComponent<TeamColors>().IsBlueTeam())
+                    blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
+            }
+
+            if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) {
+                blueCastle.GetComponent<BlueCastle>().toggleCurrentUnit();
+            }
 
             if (isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
@@ -156,10 +198,6 @@ public class Player : MonoBehaviour
                 if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
                 {
                     AttackWithSelectedUnits(hit.transform.gameObject);
-                }
-                else
-                {
-                    blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
                 }
             }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
@@ -357,13 +395,12 @@ public class Player : MonoBehaviour
 
     /*---------Movement-----------*/
 
-    private Vector3 calculateCurrFramePositionDelta() {
-
-        return initialPos - leftHand.transform.localPosition;
+    private Vector3 calculateCurrFramePositionDelta(GameObject hand) {
+        return initialPos - hand.transform.localPosition;
     }
 
-    private Quaternion calculateCurrFrameRotationDelta() {
-        return initialRot * Quaternion.Inverse(leftHand.transform.localRotation);
+    private Quaternion calculateCurrFrameRotationDelta(GameObject hand) {
+        return initialRot * Quaternion.Inverse(hand.transform.localRotation);
     }
 
     private void flyToPositionWithRotation(Vector3 deltaPos, Quaternion deltaRot) {
@@ -396,8 +433,8 @@ public class Player : MonoBehaviour
     void listenAndExecuteFlying() {
         listenForFlightModeTriggerAndSavePosition();
         if(isflightMode) {
-            Vector3 deltaPos = calculateCurrFramePositionDelta();
-            Quaternion deltaRot = calculateCurrFrameRotationDelta();
+            Vector3 deltaPos = calculateCurrFramePositionDelta(leftHand);
+            Quaternion deltaRot = calculateCurrFrameRotationDelta(leftHand);
             flyToPositionWithRotation(deltaPos, deltaRot);
         }
     }
