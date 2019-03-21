@@ -19,6 +19,7 @@ public class RedCastle : MonoBehaviour
 
     private bool useShittyAI = false;
     private bool justSpawned = false;
+    private bool isDying = false;
     private Soldier prevSoldier;
 
     // Start is called before the first frame update
@@ -94,9 +95,10 @@ public class RedCastle : MonoBehaviour
         float newHeight = (castleHeight / 2.0f) * (1.0f + currHP / maxHP);
         this.transform.localScale = new Vector3(this.transform.localScale.x, newHeight, this.transform.localScale.z);
 
-        if (currHP <= 0.0f)
-        {
+        if (currHP <= 0.0f && !isDying)
+        {     
             Die();
+            isDying = true;
         }
     }
 
@@ -104,7 +106,11 @@ public class RedCastle : MonoBehaviour
     {
         // Win the game 
         Debug.Log("Congrats, you won the game!");
-        Instantiate(explosionParticles).GetComponent<ParticleSystem>().Play();
+        GameObject particleSys = Instantiate(explosionParticles);
+        particleSys.transform.position = this.transform.position;
+        this.GetComponents<AudioSource>()[0].Play();
+        this.GetComponents<AudioSource>()[1].Play();
+        particleSys.GetComponent<ParticleSystem>().Play();
     }
 
     public bool isInSpawnRange(Vector3 location)

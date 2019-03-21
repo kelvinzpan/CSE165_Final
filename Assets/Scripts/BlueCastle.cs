@@ -131,7 +131,9 @@ public class BlueCastle : MonoBehaviour
     {
         // Lose the game
         Debug.Log("Oh no, you lost the game!");
-        Instantiate(explosionParticles).GetComponent<ParticleSystem>().Play();
+        GameObject particleSys = Instantiate(explosionParticles);
+        particleSys.transform.position = this.transform.position;
+        particleSys.GetComponent<ParticleSystem>().Play();
     }
 
     public void ShowSpawnRange()
