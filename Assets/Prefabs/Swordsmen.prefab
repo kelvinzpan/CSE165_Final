@@ -118,6 +118,7 @@ MonoBehaviour:
   attackRange: 1
   attackSpeed: 0
   moveSpeed: 1
+  gatherAmount: 5
   spawn: {fileID: 8300000, guid: 8942c0fbedd2626499ac3ddfe5a9bdef, type: 3}
   defend: {fileID: 8300000, guid: 19169283c8b2d2c4ea48d2cf0d3b461e, type: 3}
   defend2: {fileID: 8300000, guid: 5b48fe03eb58b324faaf76cbd1f9605b, type: 3}
@@ -146,6 +147,8 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: e8543c882ed35f84fbd0365b2b81ee46, type: 2}
   redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725, type: 2}
+  yellowMaterial: {fileID: 0}
+  yellowHoverMaterial: {fileID: 0}
 --- !u!1 &6007151702259185891
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,15 +390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
@@ -462,11 +465,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400642, guid: 857270e40bfbfaf4da7114f4593562e0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400642, guid: 857270e40bfbfaf4da7114f4593562e0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 400642, guid: 857270e40bfbfaf4da7114f4593562e0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 857270e40bfbfaf4da7114f4593562e0, type: 3}

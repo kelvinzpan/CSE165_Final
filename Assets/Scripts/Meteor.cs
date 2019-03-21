@@ -6,6 +6,8 @@ public class Meteor : MonoBehaviour
 {
     public ParticleSystem trail;
     public ParticleSystem explosion;
+    public AudioSource explosionSound;
+    public AudioSource travlingSound;
     public float height;
     public float speed;
     public float damage;
@@ -31,10 +33,17 @@ public class Meteor : MonoBehaviour
     {
         if (exploded && explosion.isStopped)
         {
+            travlingSound.Stop();
+            explosionSound.Stop();
             Destroy(this.gameObject);
         }
         else if (!exploded && this.transform.position.y <= 1.0f)
         {
+            if (!explosionSound.isPlaying) {
+                travlingSound.Stop();
+                explosionSound.Play();
+            }
+                
             trail.Stop();
             explosion.Play();
             exploded = true;
@@ -50,6 +59,8 @@ public class Meteor : MonoBehaviour
         }
         else
         {
+            if (!travlingSound.isPlaying && !explosionSound.isPlaying)
+                travlingSound.Play();
             this.transform.position -= new Vector3(0.0f, speed * Time.deltaTime, 0.0f);
         }
     }

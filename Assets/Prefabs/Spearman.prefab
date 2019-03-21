@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 189186136064925467}
   m_LocalRotation: {x: 0.3337219, y: -0, z: -0, w: 0.94267166}
   m_LocalPosition: {x: 0.6040001, y: 0.167, z: 0.6980001}
-  m_LocalScale: {x: 1, y: 1.1195784, z: 1.1195784}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6531582186933560834}
   m_RootOrder: 0
@@ -394,6 +394,7 @@ MonoBehaviour:
   attackRange: 1
   attackSpeed: 0
   moveSpeed: 1
+  gatherAmount: 5
   spawn: {fileID: 8300000, guid: f10654ffe18c5cb49929a62ada31ae98, type: 3}
   defend: {fileID: 8300000, guid: 630993cc016d35541b81721cf481b089, type: 3}
   defend2: {fileID: 8300000, guid: 420b246764b1a1248a858aa9d4cb29ad, type: 3}
@@ -422,6 +423,8 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: e8543c882ed35f84fbd0365b2b81ee46, type: 2}
   redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725, type: 2}
+  yellowMaterial: {fileID: 0}
+  yellowHoverMaterial: {fileID: 0}
 --- !u!1001 &5414978262298252734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -479,15 +482,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 480980, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43e75fb4128fe4d4496875668dacd025, type: 3}
