@@ -471,6 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueCastle: {fileID: 1900280193}
   redCastle: {fileID: 2083182577}
+  playerController: {fileID: 1405208107}
 --- !u!1 &782918203
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +576,7 @@ Transform:
   - {fileID: 1900280197}
   - {fileID: 234460308}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831122828
 GameObject:
@@ -868,7 +869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -893,6 +894,10 @@ PrefabInstance:
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: m_LocalScale.z
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465950, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
@@ -960,7 +965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353249118
 GameObject:
@@ -1245,12 +1250,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCameraContainer: {fileID: 861674422}
   leftControllerUI: {fileID: 117425972}
+  initialPos: {x: 0, y: 0, z: 0}
+  initialRot: {x: 0, y: 0, z: 0, w: 0}
   raycastLine: {fileID: 1380302201}
   rectangularSelectionLine: {fileID: 1353249120}
   rectangularSelectionBox: {fileID: 147135420}
   blueCastle: {fileID: 1900280193}
   raycastOffset: {x: 0, y: 0, z: 0}
   raycastLength: 1000
+  soldierFormationSpacing: 4
 --- !u!4 &1405208109
 Transform:
   m_ObjectHideFlags: 0
@@ -1523,6 +1531,7 @@ GameObject:
   - component: {fileID: 2083182580}
   - component: {fileID: 2083182579}
   - component: {fileID: 2083182578}
+  - component: {fileID: 2083182583}
   m_Layer: 11
   m_Name: Red Castle
   m_TagString: Untagged
@@ -1622,3 +1631,18 @@ Transform:
   m_Father: {fileID: 784697844}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083182583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083182577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b365f5f988e0474428b3a50458241937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldier: {fileID: 1517539493514907548, guid: 9903282214c081042bfee6b09f4f1c1d, type: 3}
+  castleHeight: 5
+  castleDiameter: 10

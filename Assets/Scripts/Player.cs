@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     public Vector3 raycastOffset;
     public float raycastLength;
 
+    public float soldierFormationSpacing;
+
     private Vector3 initialCameraForward;
     private bool isRectangularSelecting = false;
     private bool isBlueCastleSelected = false;
@@ -137,17 +139,11 @@ public class Player : MonoBehaviour
 
             if (isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
-                blueCastle.GetComponent<BlueCastle>().SpawnSoldier(hit.point);
+                blueCastle.GetComponent<BlueCastle>().SpawnSoldierInRange(hit.point);
             }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
-                foreach (GameObject unit in selectedUnits)
-                {
-                    if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
-                    {
-                        unit.GetComponent<Soldier>().Defend(hit.point);
-                    }
-                }
+                DefendWithSelectedUnits(hit.point);
             }
         }
         else
@@ -207,6 +203,8 @@ public class Player : MonoBehaviour
         listenAndExecuteFlying();
     }
 
+    /*---------Unit Selection-----------*/
+
     void hoverUnit(GameObject unit)
     {
         unit.GetComponent<TeamColors>().SetDefaultHoverMaterial();
@@ -225,7 +223,7 @@ public class Player : MonoBehaviour
         hoveredUnits.Clear();
     }
 
-    void selectUnit(GameObject unit)
+    public void selectUnit(GameObject unit)
     {
         unit.GetComponent<TeamColors>().SetDefaultSelectedMaterial();
         selectedUnits.Add(unit);
@@ -244,6 +242,58 @@ public class Player : MonoBehaviour
         foreach (GameObject selected in selectedUnits) selected.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Clear();
         isBlueCastleSelected = false;
+    }
+
+    /*---------Unit Commands-----------*/
+
+    public void DefendWithSelectedUnits(Vector3 location)
+    {
+        List<Soldier> selectedSoldiers = new List<Soldier>();
+        foreach (GameObject unit in selectedUnits)
+        {
+            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            {
+                selectedSoldiers.Add(unit.GetComponent<Soldier>());
+            }
+        }
+        
+        // Square grid formation centered at location
+        int numSoldiers = selectedSoldiers.Count;
+
+        if (numSoldiers > 1)
+        {
+            int numRows = Mathf.FloorToInt(Mathf.Sqrt(numSoldiers));
+            int numCols = Mathf.CeilToInt((float) numSoldiers / numRows);
+            float soldierWidth = selectedSoldiers[0].gameObject.transform.localScale.x;
+            float soldierLength = selectedSoldiers[0].gameObject.transform.localScale.z;
+            float formationWidth = (numCols - 1) * (soldierWidth + soldierFormationSpacing);
+            float formationLength = (numRows - 1) * (soldierLength + soldierFormationSpacing);
+            Vector3 formationStart = new Vector3(location.x - formationWidth / 2.0f,
+                                                 location.y,
+                                                 location.z + formationLength / 2.0f);
+
+            Debug.Log("ROWS " + numRows);
+            Debug.Log("COLS " + numCols);
+
+            for (int i = 0; i < numCols; i++)
+            {
+                for (int j = 0; j < numRows; j++)
+                {
+                    int soldierIndex = i * numRows + j;
+                    if (soldierIndex < numSoldiers)
+                    {
+                        Vector3 defenseLocation = new Vector3(formationStart.x + i * soldierFormationSpacing + soldierWidth,
+                                                              formationStart.y,
+                                                              formationStart.z - j * soldierFormationSpacing - soldierLength);
+                        selectedSoldiers[soldierIndex].Defend(defenseLocation);
+                    }
+                }
+            }
+        }
+        else if (numSoldiers == 1)
+        {
+            selectedSoldiers[0].Defend(location);
+        }
     }
 
     /*---------Movement-----------*/

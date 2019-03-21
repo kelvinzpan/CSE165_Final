@@ -105,12 +105,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07bfa6716a07e484eb51601e9ee0433e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aggroBox: {fileID: 2633342284502693609, guid: 52f38b876223a0f44a91007415171c9f,
+    type: 3}
   soldierHeight: 4
   maxHP: 100
-  aggroDist: 10
-  dps: 20
-  attackRange: 1
-  moveSpeed: 1
+  aggroDist: 30
+  attackDamage: 20
+  attackRange: 3
+  attackSpeed: 1
+  moveSpeed: 0.2
 --- !u!114 &8342946935010627415
 MonoBehaviour:
   m_ObjectHideFlags: 0

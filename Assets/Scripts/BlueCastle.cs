@@ -30,7 +30,7 @@ public class BlueCastle : MonoBehaviour
         spawnRangeImage.fillAmount = (spawnTimer / spawnCooldown);
     }
 
-    public void SpawnSoldier(Vector3 spawnLocation)
+    public Soldier SpawnSoldierInRange(Vector3 spawnLocation)
     {
         if (spawnTimer >= spawnCooldown && isInSpawnRange(spawnLocation))
         {
@@ -39,7 +39,20 @@ public class BlueCastle : MonoBehaviour
             newSoldier.GetComponent<TeamColors>().SetBlueTeam();
 
             spawnTimer = 0.0f;
+            return newSoldier.GetComponent<Soldier>();
         }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Soldier SpawnSoldier(Vector3 spawnLocation)
+    {
+        GameObject newSoldier = GameObject.Instantiate(soldier);
+        newSoldier.transform.position = spawnLocation;
+        newSoldier.GetComponent<TeamColors>().SetBlueTeam();
+        return newSoldier.GetComponent<Soldier>();
     }
 
     public void ShowSpawnRange()

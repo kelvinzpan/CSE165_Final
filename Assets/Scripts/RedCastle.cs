@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RedCastle : MonoBehaviour
 {
+    public GameObject soldier;
     public float castleHeight;
     public float castleDiameter;
     
@@ -18,5 +19,13 @@ public class RedCastle : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public Soldier SpawnSoldier(Vector3 spawnLocation)
+    {
+        GameObject newSoldier = GameObject.Instantiate(soldier);
+        newSoldier.transform.position = spawnLocation;
+        newSoldier.GetComponent<TeamColors>().SetBlueTeam();
+        return newSoldier.GetComponent<Soldier>();
     }
 }
