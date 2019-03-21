@@ -326,7 +326,7 @@ public class Player : MonoBehaviour
     {
         foreach (GameObject unit in selectedUnits)
         {
-            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            if (unit && unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
             {
                 unit.GetComponent<Soldier>().Attack(target);
             }
@@ -338,7 +338,7 @@ public class Player : MonoBehaviour
         List<Soldier> selectedSoldiers = new List<Soldier>();
         foreach (GameObject unit in selectedUnits)
         {
-            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            if (unit && unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
             {
                 selectedSoldiers.Add(unit.GetComponent<Soldier>());
             }
@@ -385,7 +385,7 @@ public class Player : MonoBehaviour
     {
         foreach (GameObject unit in selectedUnits)
         {
-            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            if (unit && unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
             {
                 unit.GetComponent<Soldier>().Gather(target, blueCastle);
             }
