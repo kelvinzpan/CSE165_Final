@@ -80,9 +80,7 @@ public class Soldier : MonoBehaviour
             } else {
                 audio.playOnAwake = false;
             }
-            if(i == 3 || i == 4) {
-                audio.loop = true;
-            }
+
         }
     }
 
@@ -297,8 +295,8 @@ public class Soldier : MonoBehaviour
         }
         else
         {
-            if (!allSources[7].isPlaying)
-                allSources[7].Play();
+            allSources[3].Stop();
+            allSources[4].Stop();
             Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
             MoveTowards(targetPos);
         }
@@ -306,6 +304,8 @@ public class Soldier : MonoBehaviour
 
     private void Die()
     {
+        allSources[3].Stop();
+        allSources[4].Stop();
         allSources[5].Play();
         Destroy(currAggroBox);
         Destroy(this.gameObject);
