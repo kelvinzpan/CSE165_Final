@@ -27,6 +27,11 @@ public class TeamColors : MonoBehaviour
         
     }
 
+    public bool IsSameTeam(TeamColors teamColor)
+    {
+        return (this.team == teamColor.team);
+    }
+
     public void SetBlueTeam()
     {
         team = Team.Blue;
