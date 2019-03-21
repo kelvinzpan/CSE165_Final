@@ -10,7 +10,7 @@ public class BlueCastle : MonoBehaviour
     private GameObject baseMenu;
     private GameObject fireBallSlider;
     private bool isRendered;
-    private int currUnitIndex = -1;
+    private int currUnitIndex = 0;
 
     public Image spawnRangeImage;
     public GameObject soldier;
@@ -47,6 +47,10 @@ public class BlueCastle : MonoBehaviour
         currHP = maxHP;
 
         spawnRangeImage.transform.localScale = new Vector3(castleDiameter + spawnRange * 2, castleDiameter + spawnRange * 2, 1.0f);
+
+        //select plebs by default
+        soldier = unitRoster[currUnitIndex];
+        baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = Color.green;
     }
 
     // Update is called once per frame
@@ -154,11 +158,8 @@ public class BlueCastle : MonoBehaviour
     }
 
     public void toggleCurrentUnit() {
-        // First time no unit is select4ed
-        if(currUnitIndex != -1) {
-            baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = new Color(50.0f, 255.0f, 0.0f);
-        }
-        currUnitIndex = (currUnitIndex + 1) % 3;
+        baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = new Color(50.0f, 255.0f, 0.0f);
+        currUnitIndex = (currUnitIndex + 1) % unitRoster.Length;
         soldier = unitRoster[currUnitIndex];
         baseMenu.transform.GetChild(currUnitIndex).GetComponent<Image>().color = Color.green;
     }

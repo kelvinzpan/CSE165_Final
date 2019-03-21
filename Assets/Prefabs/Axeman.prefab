@@ -203,13 +203,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aggroBox: {fileID: 2633342284502693609, guid: 52f38b876223a0f44a91007415171c9f,
     type: 3}
-  soldierHeight: 4
-  maxHP: 100
-  aggroDist: 10
-  attackDamage: 0
-  attackRange: 1
-  attackSpeed: 0
-  moveSpeed: 1
+  soldierHeight: 5
+  maxHP: 120
+  aggroDist: 30
+  attackDamage: 0.8
+  attackRange: 4
+  attackSpeed: 0.3
+  moveSpeed: 0.2
   gatherAmount: 2
   spawn: {fileID: 8300000, guid: bca1480eb3c3d7d41902d8e4a59ba0fd, type: 3}
   defend: {fileID: 8300000, guid: 4ce5077a83981e544acfb229a87d1578, type: 3}
