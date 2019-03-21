@@ -12,6 +12,9 @@ MonoImporter:
   - redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   - redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725,
       type: 2}
+  - yellowMaterial: {fileID: 2100000, guid: 2663f1918a0b1fc4693bb25e2e4f7ca3, type: 2}
+  - yellowHoverMaterial: {fileID: 2100000, guid: 18b3788450734e041bb3c697df26ab77,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

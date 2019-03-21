@@ -14,13 +14,16 @@ public class Soldier : MonoBehaviour
     public float attackRange;
     public float attackSpeed;
     public float moveSpeed;
+    public float gatherAmount;
 
     private Command currState = Command.Defending;
     private GameObject attackTarget;
-    private GameObject gatherTarget;
     private Vector2 defendTarget;
     private GameObject currAggroBox;
     private GameObject defendAggroTarget;
+    private GameObject gatherTarget;
+    private GameObject gatherBase;
+    private float amountGathered = 0.0f;
     private Vector2 fleeTarget;
     private float currHP;
     private float attackTimer = 0.0f;
@@ -90,7 +93,38 @@ public class Soldier : MonoBehaviour
         }
         else if (currState == Command.Gathering)
         {
-            // TODO
+            if (amountGathered > 0.0f)
+            {
+                if (isInGatherRange(gatherBase))
+                {
+                    // TODO deposit resource
+                    amountGathered = 0.0f;
+                }
+                else
+                {
+                    Vector2 gatherPos = new Vector2(gatherBase.transform.position.x, gatherBase.transform.position.z);
+                    MoveTowards(gatherPos);
+                }
+            }
+            else
+            {
+                if (gatherTarget)
+                {
+                    if (isInGatherRange(gatherTarget))
+                    {
+                        amountGathered = gatherTarget.GetComponent<Resource>().Gather(gatherAmount);
+                    }
+                    else
+                    {
+                        Vector2 gatherPos = new Vector2(gatherTarget.transform.position.x, gatherTarget.transform.position.z);
+                        MoveTowards(gatherPos);
+                    }
+                }
+                else
+                {
+                    Defend(this.transform.position);
+                }
+            }
         }
         else if (currState == Command.Fleeing)
         {
@@ -136,6 +170,14 @@ public class Soldier : MonoBehaviour
         currAggroBox.transform.position = new Vector3(defendTarget.x, 0.0f, defendTarget.y);
     }
 
+    public void Gather(GameObject target, GameObject castle)
+    {
+        ClearCommandState();
+        currState = Command.Gathering;
+        gatherTarget = target;
+        gatherBase = castle;
+    }
+
     public void Flee(Vector3 location)
     {
         ClearCommandState();
@@ -153,6 +195,8 @@ public class Soldier : MonoBehaviour
         if (defendAggroTarget) defendAggroTarget = null;
 
         // Gathering state
+        if (gatherTarget) gatherTarget = null;
+        if (gatherBase) gatherBase = null;
 
         // Flee state
         
@@ -217,6 +261,14 @@ public class Soldier : MonoBehaviour
         Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
         Vector2 currPos = new Vector2(this.transform.position.x, this.transform.position.z);
         return (targetPos - currPos).magnitude <= attackRange;
+    }
+
+    private bool isInGatherRange(GameObject target)
+    {
+        Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
+        Vector2 currPos = new Vector2(this.transform.position.x, this.transform.position.z);
+        float gatherRadius = target.transform.localScale.x / 2;
+        return (targetPos - currPos).magnitude - gatherRadius <= attackRange;
     }
 
     private bool isAtLocation(Vector2 location)

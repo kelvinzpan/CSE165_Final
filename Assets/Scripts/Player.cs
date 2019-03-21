@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 
     const string LAYER_CASTLE = "Castle";
     const string LAYER_SOLDIER = "Soldier";
+    const string LAYER_RESOURCE = "Resource";
     const string LAYER_FLOOR = "Floor";
     const string LAYER_UNIT_UI = "UI";
 
@@ -172,7 +173,11 @@ public class Player : MonoBehaviour
                     AttackWithSelectedUnits(hit.transform.gameObject);
                 }
             }
-            else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_RESOURCE)))
+            {
+                GatherWithSelectedUnits(hit.transform.gameObject);
+            }
+            else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
             {
                 blueCastle.GetComponent<BlueCastle>().toggleCurrentUnit();
             }
@@ -197,7 +202,7 @@ public class Player : MonoBehaviour
                 clearHoveredUnits();
                 RaycastHit hit;
                 Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
-                if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE, LAYER_SOLDIER)))
+                if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE, LAYER_SOLDIER, LAYER_RESOURCE)))
                 {
                     GameObject currObj = hit.transform.gameObject;
 
@@ -281,7 +286,8 @@ public class Player : MonoBehaviour
     /*---------Unit Commands-----------*/
 
     public void AttackWithSelectedUnits(GameObject target)
-    {foreach (GameObject unit in selectedUnits)
+    {
+        foreach (GameObject unit in selectedUnits)
         {
             if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
             {
@@ -335,6 +341,17 @@ public class Player : MonoBehaviour
         else if (numSoldiers == 1)
         {
             selectedSoldiers[0].Defend(location);
+        }
+    }
+
+    public void GatherWithSelectedUnits(GameObject target)
+    {
+        foreach (GameObject unit in selectedUnits)
+        {
+            if (unit.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && unit.GetComponent<TeamColors>().IsBlueTeam())
+            {
+                unit.GetComponent<Soldier>().Gather(target, blueCastle);
+            }
         }
     }
 
