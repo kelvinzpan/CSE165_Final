@@ -7,6 +7,7 @@ public class Main : MonoBehaviour
     public GameObject blueCastle;
     public GameObject redCastle;
     public GameObject playerController;
+    public GameObject resourceController;
 
     private bool runOnce = true;
     private GameObject test;
@@ -40,6 +41,21 @@ public class Main : MonoBehaviour
             playerController.GetComponent<Player>().selectUnit(soldier.gameObject);
         }
         */
+
+        /* Soldier gather 
+        for (int i = 0; i < 3; i++)
+        {
+            Soldier soldier = blueCastle.GetComponent<BlueCastle>().SpawnSoldier(new Vector3(50.0f, 0.0f, i * 5.0f));
+            playerController.GetComponent<Player>().selectUnit(soldier.gameObject);
+        }
+        */
+
+        /* Meteor attack 
+        for (int i = -20; i < 20; i++)
+        {
+            redCastle.GetComponent<RedCastle>().SpawnSoldier(new Vector3(-2.0f, 0.0f, i * 5.0f));
+        }
+        */
     }
 
     // Update is called once per frame
@@ -57,6 +73,15 @@ public class Main : MonoBehaviour
 
             /* Soldier attack 
             playerController.GetComponent<Player>().AttackWithSelectedUnits(test);
+            */
+
+            /* Soldier gather 
+            playerController.GetComponent<Player>().GatherWithSelectedUnits(resourceController.GetComponent<ResourceController>().SpawnResource());
+            */
+
+            /* Meteor attack 
+            blueCastle.GetComponent<BlueCastle>().SummonMeteor(new Vector2(0.0f, -50.0f), 0.0f);
+            blueCastle.GetComponent<BlueCastle>().SummonMeteor(new Vector2(0.0f, 50.0f), 1.0f);
             */
         }
     }

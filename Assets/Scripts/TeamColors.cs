@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeamColors : MonoBehaviour
 {
-    enum Team { Blue, Red };
+    enum Team { Blue, Red, Yellow };
 
     public Material blueMaterial;
     public Material blueHoverMaterial;
@@ -12,6 +12,8 @@ public class TeamColors : MonoBehaviour
     public Material redMaterial;
     public Material redHoverMaterial;
     public Material redSelectedMaterial;
+    public Material yellowMaterial;
+    public Material yellowHoverMaterial;
 
     private Team team;
 
@@ -44,6 +46,12 @@ public class TeamColors : MonoBehaviour
         SetRedMaterial();
     }
 
+    public void SetYellowTeam()
+    {
+        team = Team.Yellow;
+        SetYellowMaterial();
+    }
+
     public bool IsBlueTeam()
     {
         return (team == Team.Blue);
@@ -57,13 +65,15 @@ public class TeamColors : MonoBehaviour
     public void SetDefaultMaterial()
     {
         if (team == Team.Blue) SetBlueMaterial();
-        else SetRedMaterial();
+        else if (team == Team.Red) SetRedMaterial();
+        else SetYellowMaterial();
     }
 
     public void SetDefaultHoverMaterial()
     {
         if (team == Team.Blue) SetBlueHoverMaterial();
-        else SetRedHoverMaterial();
+        else if (team == Team.Red) SetRedHoverMaterial();
+        else SetYellowHoverMaterial();
     }
 
     public void SetDefaultSelectedMaterial()
@@ -106,5 +116,17 @@ public class TeamColors : MonoBehaviour
     {
         MeshRenderer renderer = this.GetComponent<MeshRenderer>();
         renderer.material = redSelectedMaterial;
+    }
+
+    public void SetYellowMaterial()
+    {
+        MeshRenderer renderer = this.GetComponent<MeshRenderer>();
+        renderer.material = yellowMaterial;
+    }
+
+    public void SetYellowHoverMaterial()
+    {
+        MeshRenderer renderer = this.GetComponent<MeshRenderer>();
+        renderer.material = yellowHoverMaterial;
     }
 }

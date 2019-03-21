@@ -1015,6 +1015,7 @@ MonoBehaviour:
   blueCastle: {fileID: 1900280193}
   redCastle: {fileID: 2083182577}
   playerController: {fileID: 1405208107}
+  resourceController: {fileID: 1772022894}
 --- !u!1 &621631266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1198,7 @@ Transform:
   - {fileID: 2083182582}
   - {fileID: 1900280197}
   - {fileID: 234460308}
+  - {fileID: 1772022895}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2752,6 +2754,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1726334006}
   m_CullTransparentMesh: 0
+--- !u!1 &1772022894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772022895}
+  - component: {fileID: 1772022896}
+  m_Layer: 0
+  m_Name: ResourceController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1772022895
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772022894}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 784697844}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1772022896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772022894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6639da38975c26b4f95562519c6f55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 9069159868299916024, guid: f216cf68addb1a0469ef2a8254d0d0a6,
+    type: 3}
+  maxResources: 7
+  initResources: 3
+  spawnSpeed: 25
+  maxValue: 15
+  minValue: 8
+  zSpawnRange: 50
+  xSpawnRange: 100
 --- !u!20 &1799624227 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2014920, guid: dc06161b6d97feb419f45f03b62e14b9,
@@ -2808,6 +2862,7 @@ GameObject:
   - component: {fileID: 1900280194}
   - component: {fileID: 1900280198}
   - component: {fileID: 1900280199}
+  - component: {fileID: 1900280200}
   m_Layer: 11
   m_Name: Blue Castle
   m_TagString: Untagged
@@ -2908,6 +2963,8 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: e8543c882ed35f84fbd0365b2b81ee46, type: 2}
   redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725, type: 2}
+  yellowMaterial: {fileID: 0}
+  yellowHoverMaterial: {fileID: 0}
 --- !u!114 &1900280199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2929,8 +2986,26 @@ MonoBehaviour:
   - {fileID: 4093895322688279242, guid: 54ed4c0add8f5ef43a99fb799977bd27, type: 3}
   castleHeight: 5
   castleDiameter: 10
+  maxHP: 100
+  maxResource: 100
   spawnRange: 20
   spawnCooldown: 3
+  meteor: {fileID: 7801743379730620259, guid: 05823c8bd689ade4990fa703df94e96e, type: 3}
+  minMeteorCost: 10
+  maxMeteorCost: 25
+--- !u!114 &1900280200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900280193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cb233c1411e134a9a2a7366017bd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldier: {fileID: 0}
 --- !u!1 &2049778617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,6 +3051,7 @@ GameObject:
   - component: {fileID: 2083182579}
   - component: {fileID: 2083182578}
   - component: {fileID: 2083182583}
+  - component: {fileID: 2083182584}
   m_Layer: 11
   m_Name: Red Castle
   m_TagString: Untagged
@@ -3002,6 +3078,8 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: e8543c882ed35f84fbd0365b2b81ee46, type: 2}
   redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725, type: 2}
+  yellowMaterial: {fileID: 0}
+  yellowHoverMaterial: {fileID: 0}
 --- !u!136 &2083182579
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3090,6 +3168,22 @@ MonoBehaviour:
   soldier: {fileID: 1517539493514907548, guid: 9903282214c081042bfee6b09f4f1c1d, type: 3}
   castleHeight: 5
   castleDiameter: 10
+  maxHP: 100
+  spawnRange: 20
+  spawnCooldown: 3
+--- !u!114 &2083182584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083182577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cb233c1411e134a9a2a7366017bd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldier: {fileID: 0}
 --- !u!1 &2103583162
 GameObject:
   m_ObjectHideFlags: 0
