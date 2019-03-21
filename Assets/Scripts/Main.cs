@@ -51,9 +51,8 @@ public class Main : MonoBehaviour
         */
 
         /* Meteor attack 
-        for (int i = -3; i < 6; i++)
+        for (int i = -20; i < 20; i++)
         {
-            blueCastle.GetComponent<BlueCastle>().SpawnSoldier(new Vector3(2.0f, 0.0f, i * 5.0f));
             redCastle.GetComponent<RedCastle>().SpawnSoldier(new Vector3(-2.0f, 0.0f, i * 5.0f));
         }
         */
@@ -81,7 +80,8 @@ public class Main : MonoBehaviour
             */
 
             /* Meteor attack 
-            blueCastle.GetComponent<BlueCastle>().SummonMeteor(new Vector2(0.0f, 0.0f));
+            blueCastle.GetComponent<BlueCastle>().SummonMeteor(new Vector2(0.0f, -50.0f), 0.0f);
+            blueCastle.GetComponent<BlueCastle>().SummonMeteor(new Vector2(0.0f, 50.0f), 1.0f);
             */
         }
     }

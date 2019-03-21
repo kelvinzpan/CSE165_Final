@@ -25,6 +25,8 @@ public class BlueCastle : MonoBehaviour
     public float spawnCooldown;
 
     public GameObject meteor;
+    public float minMeteorCost;
+    public float maxMeteorCost;
 
     private float currHP;
     private float currResource = 0.0f;
@@ -90,10 +92,21 @@ public class BlueCastle : MonoBehaviour
         }
     }
 
-    public void SummonMeteor(Vector2 location)
+    public void UseMeteor(Vector3 location, float force) // force is float between 0 and 1
+    {
+        float cost = minMeteorCost + (maxMeteorCost - minMeteorCost) * force;
+        if (currResource > cost)
+        {
+            SummonMeteor(new Vector2(location.x, location.z), force);
+            currResource -= cost;
+        }
+    }
+
+    public void SummonMeteor(Vector2 location, float force) // force is float between 0 and 1
     {
         GameObject newMeteor = Instantiate(meteor);
         newMeteor.transform.position = new Vector3(location.x, newMeteor.transform.position.y, location.y);
+        newMeteor.GetComponent<Meteor>().SetForce(force);
     }
 
     public void AddResource(float resource)

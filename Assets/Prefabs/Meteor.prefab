@@ -4793,10 +4793,11 @@ MonoBehaviour:
   trail: {fileID: 7801743378901386943}
   explosion: {fileID: 7801743379932641786}
   height: 100
-  speed: 30
-  damage: 100
+  speed: 25
+  damage: 50
   hitbox: {fileID: 2187730180996142731}
   size: 30
+  particleSize: 2
 --- !u!1 &7801743379932641788
 GameObject:
   m_ObjectHideFlags: 0
