@@ -37,7 +37,7 @@ public class RedCastle : MonoBehaviour
 
         if (useShittyAI)
         {
-            if (justSpawned)
+            if (justSpawned && prevSoldier)
             {
                 if (Random.Range(0.0f, 1.0f) > 0.7f)
                 {
