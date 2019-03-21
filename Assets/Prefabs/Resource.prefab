@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSizeFactor: 0.5
   minSize: 1
-  maxValue: 100
+  maxValue: 30
 --- !u!114 &9069159868299916030
 MonoBehaviour:
   m_ObjectHideFlags: 0

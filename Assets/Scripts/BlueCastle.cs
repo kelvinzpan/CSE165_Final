@@ -29,14 +29,17 @@ public class BlueCastle : MonoBehaviour
     public float maxMeteorCost = 25;
 
     private float currHP;
-    private float currResource = 0.0f;
+    private float currResource = 10.0f;
     private float spawnTimer = 0.0f;
+    public GameObject resourceCount;
+    public GameObject resourceCosts;
 
     // Start is called before the first frame update
     void Start()
     {
         baseMenu = GameObject.Find("Base Menu");
         fireBallSlider = GameObject.Find("Base Menu/Slider");
+        updateCosts();
 
         baseMenu.GetComponent<CanvasGroup>().alpha = 0.0f;
         this.transform.localScale = new Vector3(castleDiameter, castleHeight, castleDiameter);
@@ -99,6 +102,9 @@ public class BlueCastle : MonoBehaviour
         {
             SummonMeteor(new Vector2(location.x, location.z), force);
             currResource -= cost;
+            updateResourceCount();
+        } else {
+            this.GetComponent<AudioSource>().Play();
         }
     }
 
@@ -112,6 +118,7 @@ public class BlueCastle : MonoBehaviour
     public void AddResource(float resource)
     {
         currResource = Mathf.Min(currResource + resource, maxResource);
+        updateResourceCount();
     }
 
     public void Die()
@@ -157,10 +164,21 @@ public class BlueCastle : MonoBehaviour
     }
 
     public void changeSliderValue(float value) {
+        updateCosts();
         fireBallSlider.GetComponent<Slider>().value += value;
     }
 
     public float getForce() {
         return fireBallSlider.GetComponent<Slider>().value;
+    }
+
+    private void updateResourceCount() {
+        resourceCount.GetComponent<Text>().text = currResource.ToString();
+    }
+
+    private void updateCosts() {
+        float cost = minMeteorCost + (maxMeteorCost - minMeteorCost) * this.getForce();
+        Debug.Log(cost);
+        resourceCosts.GetComponent<Text>().text = "Cost: " + cost.ToString("F2");
     }
 }

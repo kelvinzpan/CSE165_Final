@@ -117,7 +117,7 @@ MonoBehaviour:
   attackRange: 4
   attackSpeed: 0.1
   moveSpeed: 0.2
-  gatherAmount: 10
+  gatherAmount: 3
   spawn: {fileID: 8300000, guid: 74d0438a3c05f3f40837f27b865a620f, type: 3}
   defend: {fileID: 8300000, guid: b696b128981dcf54e9b9ab4446af17fd, type: 3}
   defend2: {fileID: 8300000, guid: 77316668d48d5834ea202c473efac7fc, type: 3}
