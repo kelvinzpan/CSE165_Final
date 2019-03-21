@@ -39,10 +39,13 @@ public class RedCastle : MonoBehaviour
         {
             if (justSpawned)
             {
-                Vector3 range = new Vector3(Random.Range(-50.0f, 50.0f),
-                                            0.0f,
-                                            Random.Range(-20.0f, 20.0f));
-                prevSoldier.Defend(range);
+                if (Random.Range(0.0f, 1.0f) > 0.7f)
+                {
+                    Vector3 range = new Vector3(Random.Range(-50.0f, 50.0f),
+                                                0.0f,
+                                                Random.Range(-20.0f, 20.0f));
+                    prevSoldier.Defend(range);
+                }
                 justSpawned = false;
             }
 
