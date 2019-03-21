@@ -12,6 +12,8 @@ public class RedCastle : MonoBehaviour
     public float spawnRange;
     public float spawnCooldown;
 
+    public GameObject explosionParticles;
+
     private float currHP;
     private float spawnTimer = 0.0f;
 
@@ -102,6 +104,7 @@ public class RedCastle : MonoBehaviour
     {
         // Win the game 
         Debug.Log("Congrats, you won the game!");
+        Instantiate(explosionParticles).GetComponent<ParticleSystem>().Play();
     }
 
     public bool isInSpawnRange(Vector3 location)

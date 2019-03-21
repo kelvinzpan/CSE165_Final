@@ -28,6 +28,8 @@ public class BlueCastle : MonoBehaviour
     public float minMeteorCost = 10;
     public float maxMeteorCost = 25;
 
+    public GameObject explosionParticles;
+
     private float currHP;
     private float currResource = 10.0f;
     private float spawnTimer = 0.0f;
@@ -129,6 +131,7 @@ public class BlueCastle : MonoBehaviour
     {
         // Lose the game
         Debug.Log("Oh no, you lost the game!");
+        Instantiate(explosionParticles).GetComponent<ParticleSystem>().Play();
     }
 
     public void ShowSpawnRange()
