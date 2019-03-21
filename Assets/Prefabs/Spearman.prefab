@@ -402,7 +402,7 @@ MonoBehaviour:
   die: {fileID: 8300000, guid: e96c6376f46b8784898f7dca876ccf25, type: 3}
   attack: {fileID: 8300000, guid: 38b7e3bce526d184d99f6a44597f234b, type: 3}
   movement: {fileID: 8300000, guid: 5e792c6ac4805054bb5805da20c4bb48, type: 3}
-  soundCount: 6
+  soundCount: 8
 --- !u!114 &4351514412295300813
 MonoBehaviour:
   m_ObjectHideFlags: 0

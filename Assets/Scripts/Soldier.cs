@@ -51,6 +51,7 @@ public class Soldier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        allSources[0].Play();
         this.transform.localScale = new Vector3(this.transform.localScale.x, soldierHeight, this.transform.localScale.z);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.localScale.y / 2.0f, this.transform.position.z);
 
@@ -69,7 +70,7 @@ public class Soldier : MonoBehaviour
             audio.spatialBlend = 1.0f;
             audio.rolloffMode = AudioRolloffMode.Linear;
             audio.minDistance = 0.03f;
-            audio.maxDistance = 200.0f;
+            audio.maxDistance = 100.0f;
             if(i == 0) {
                 audio.playOnAwake = true;
                 audio.priority = (int)Random.Range(50.0f, 200.0f);
@@ -86,7 +87,7 @@ public class Soldier : MonoBehaviour
     void Update()
     {
         attackTimer = Mathf.Max(attackTimer - Time.deltaTime, 0.0f);
-        //allSources[7].Play();
+        
         if (currState == Command.Attacking)
         {
             if (attackTarget && !isSameTeam(attackTarget))
@@ -232,8 +233,10 @@ public class Soldier : MonoBehaviour
         {
             if (attackTimer <= 0.0f)
             {
-                allSources[3].Play();
-                allSources[4].Play();
+                int indx = (int)Random.Range(3.0f, 4.99f);
+                if(!allSources[indx].isPlaying) {
+                    allSources[indx].Play();
+                }
                 // TODO Play attack animation
 
                 if (target.layer == LayerMask.NameToLayer(LAYER_SOLDIER))
@@ -250,6 +253,8 @@ public class Soldier : MonoBehaviour
         }
         else
         {
+            if (!allSources[7].isPlaying)
+                allSources[7].Play();
             Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
             MoveTowards(targetPos);
         }

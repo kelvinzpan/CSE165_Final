@@ -64,7 +64,8 @@ public class Player : MonoBehaviour
         // only want to know if pressed
         bool usingCommandInput = SteamVR_Input.GetBooleanAction("CommandInput").GetStateDown(SteamVR_Input_Sources.RightHand);
 
-        bool selectHeldDown = (usingSelectInput && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateUp(SteamVR_Input_Sources.RightHand));
+        bool selectHeldDown = (usingSelectInput && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateUp(SteamVR_Input_Sources.RightHand)
+                                                && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateDown(SteamVR_Input_Sources.RightHand));
         raycastLine.SetPosition(0, raycastStart + raycastOffset);
         raycastLine.SetPosition(1, raycastStart + raycastDir * raycastLength);
 
@@ -73,10 +74,10 @@ public class Player : MonoBehaviour
 
         if (usingSelectInput)
         {
-            RaycastHit hit;
-            Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
             if (isRectangularSelecting)
             {
+                RaycastHit hit;
+                Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
                 if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
                 {
                     rectangularSelectingEnd = hit.point;
@@ -103,8 +104,10 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            else if(selectHeldDown && isUnitUISelected) 
+            else if(selectHeldDown) 
             {
+                RaycastHit hit;
+                Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
                 if (!isDraggingSlider) 
                 {
                     if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
@@ -116,11 +119,13 @@ public class Player : MonoBehaviour
                 else 
                 {
                     Vector3 deltaPos = calculateCurrFramePositionDelta(rightHand);
-                    blueCastle.GetComponent<BlueCastle>().changeSliderValue(-deltaPos.x / 5.0f);
+                    blueCastle.GetComponent<BlueCastle>().changeSliderValue(-deltaPos.x / 50.0f);
                 }
             }
             else
             {
+                RaycastHit hit;
+                Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
                 if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
                 {
                     rectangularSelectingStart = hit.point;
@@ -165,6 +170,7 @@ public class Player : MonoBehaviour
             if (SteamVR_Input.GetBooleanAction("CommandInput").GetStateUp(SteamVR_Input_Sources.RightHand)) {
                 isRectangularSelecting = false;
                 isBlueCastleSelected = false;
+                isUnitUISelected = false;
             }
 
         }
@@ -174,11 +180,8 @@ public class Player : MonoBehaviour
             Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
 
             if(!isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE))) {
-                if(hit.transform.gameObject.GetComponent<TeamColors>().IsBlueTeam()) {
-                    isUnitUISelected = !isUnitUISelected;
+                if(hit.transform.gameObject.GetComponent<TeamColors>().IsBlueTeam())
                     blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
-                }
-                    
             }
 
             if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) {
@@ -292,6 +295,7 @@ public class Player : MonoBehaviour
         unit.GetComponent<TeamColors>().SetDefaultSelectedMaterial();
         selectedUnits.Add(unit);
         if (unit.layer == LayerMask.NameToLayer(LAYER_CASTLE) && unit.GetComponent<TeamColors>().IsBlueTeam()) isBlueCastleSelected = true;
+        if (unit.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && unit.GetComponent<TeamColors>().IsBlueTeam()) isUnitUISelected = true;
     }
 
     void deselectUnit(GameObject unit)
@@ -299,6 +303,7 @@ public class Player : MonoBehaviour
         unit.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Remove(unit);
         if (unit.layer == LayerMask.NameToLayer(LAYER_CASTLE) && unit.GetComponent<TeamColors>().IsBlueTeam()) isBlueCastleSelected = false;
+        if (unit.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && unit.GetComponent<TeamColors>().IsBlueTeam()) isUnitUISelected = false;
     }
 
     void clearSelectedUnits()
@@ -306,6 +311,7 @@ public class Player : MonoBehaviour
         foreach (GameObject selected in selectedUnits) selected.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Clear();
         isBlueCastleSelected = false;
+        isUnitUISelected = false;
     }
 
     /*---------Unit Commands-----------*/
