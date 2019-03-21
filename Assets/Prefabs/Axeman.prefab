@@ -210,6 +210,15 @@ MonoBehaviour:
   attackRange: 1
   attackSpeed: 0
   moveSpeed: 1
+  spawn: {fileID: 8300000, guid: bca1480eb3c3d7d41902d8e4a59ba0fd, type: 3}
+  defend: {fileID: 8300000, guid: 4ce5077a83981e544acfb229a87d1578, type: 3}
+  defend2: {fileID: 8300000, guid: f7412c6f2ed6fe44da134ba2e32bad57, type: 3}
+  fight1: {fileID: 8300000, guid: 85478e41bdd0cf341837ae2c89f8fcbe, type: 3}
+  fight2: {fileID: 8300000, guid: 8487bb31a75718e44b5349396903e54b, type: 3}
+  die: {fileID: 8300000, guid: 2f2b0cb39dae53e42944c221bc6520b6, type: 3}
+  attack: {fileID: 8300000, guid: ccbc6fff17ea6e847b3ddd84ec0aeb46, type: 3}
+  movement: {fileID: 8300000, guid: 5e792c6ac4805054bb5805da20c4bb48, type: 3}
+  soundCount: 6
 --- !u!114 &4301907058348379315
 MonoBehaviour:
   m_ObjectHideFlags: 0
