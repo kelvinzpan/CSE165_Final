@@ -2434,7 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd4334f42ea95c478af4e7fee5618ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUI: {fileID: 0}
+  baseUI: {fileID: 1242151583}
   spawnRangeImage: {fileID: 1405590672}
   soldier: {fileID: 1517539493514907548, guid: 9903282214c081042bfee6b09f4f1c1d, type: 3}
   unitRoster:

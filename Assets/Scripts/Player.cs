@@ -146,13 +146,14 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             Ray ray = new Ray(raycastStart + raycastOffset, raycastDir);
 
+            if(!isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE))) {
+                if(hit.transform.gameObject.GetComponent<TeamColors>().IsBlueTeam())
+                    blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
+            }
+
             if (isBlueCastleSelected && Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
                 blueCastle.GetComponent<BlueCastle>().SpawnSoldierInRange(hit.point);
-            }
-            else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE)))
-            {
-                blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
             }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
@@ -163,7 +164,7 @@ public class Player : MonoBehaviour
                 if (hit.transform.gameObject.GetComponent<TeamColors>().IsRedTeam())
                 {
                     AttackWithSelectedUnits(hit.transform.gameObject);
-                }
+                }            
             }
             else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
             {
