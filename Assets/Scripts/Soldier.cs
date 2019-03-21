@@ -127,6 +127,7 @@ public class Soldier : MonoBehaviour
     private void ClearCommandState()
     {
         // Attack state
+        if (attackTarget) attackTarget = null;
 
         // Defend state
         if (currAggroBox) Destroy(currAggroBox);

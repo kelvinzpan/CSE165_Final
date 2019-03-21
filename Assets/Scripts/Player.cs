@@ -309,19 +309,16 @@ public class Player : MonoBehaviour
                                                  location.y,
                                                  location.z + formationLength / 2.0f);
 
-            Debug.Log("ROWS " + numRows);
-            Debug.Log("COLS " + numCols);
-
-            for (int i = 0; i < numCols; i++)
+            for (int i = 0; i < numRows; i++)
             {
-                for (int j = 0; j < numRows; j++)
+                for (int j = 0; j < numCols; j++)
                 {
-                    int soldierIndex = i * numRows + j;
+                    int soldierIndex = i * numCols + j;
                     if (soldierIndex < numSoldiers)
                     {
-                        Vector3 defenseLocation = new Vector3(formationStart.x + i * soldierFormationSpacing + soldierWidth,
+                        Vector3 defenseLocation = new Vector3(formationStart.x + j * soldierFormationSpacing + soldierWidth,
                                                               formationStart.y,
-                                                              formationStart.z - j * soldierFormationSpacing - soldierLength);
+                                                              formationStart.z - i * soldierFormationSpacing - soldierLength);
                         selectedSoldiers[soldierIndex].Defend(defenseLocation);
                     }
                 }
