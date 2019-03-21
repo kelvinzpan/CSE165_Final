@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private Vector3 initialCameraForward;
     private bool isRectangularSelecting = false;
     private bool isBlueCastleSelected = false;
+    private bool isUnitUISelected = false;
     private Vector3 rectangularSelectingStart;
     private Vector3 rectangularSelectingEnd;
     private HashSet<GameObject> hoveredUnits = new HashSet<GameObject>();
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
     const string LAYER_CASTLE = "Castle";
     const string LAYER_SOLDIER = "Soldier";
     const string LAYER_FLOOR = "Floor";
+    const string LAYER_UNIT_UI = "UI";
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour
 
         rightHand = playerCameraContainer.transform.GetChild(0).GetChild(2).gameObject;
         leftHand = playerCameraContainer.transform.GetChild(0).GetChild(1).gameObject;
-
+       
         rectangularSelectionLine.positionCount = 5;
         blueCastle.GetComponent<BlueCastle>().HideSpawnRange();
     }
@@ -107,7 +109,7 @@ public class Player : MonoBehaviour
                     isRectangularSelecting = true;
                 }
 
-                if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE, LAYER_SOLDIER, LAYER_FLOOR)))
+                if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE, LAYER_SOLDIER, LAYER_FLOOR, LAYER_UNIT_UI)))
                 {
                     GameObject currObj = hit.transform.gameObject;
 
@@ -127,7 +129,14 @@ public class Player : MonoBehaviour
                         dehoverUnit(currObj);
                         selectUnit(currObj);
                     }
+                    else if (currObj.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Select blue castle
+                    {
+                        clearSelectedUnits();
+                        dehoverUnit(currObj);
+                        selectUnit(currObj);
+                    }
                 }
+
             }
         }
         else if (usingCommandInput)
@@ -139,6 +148,10 @@ public class Player : MonoBehaviour
             {
                 blueCastle.GetComponent<BlueCastle>().SpawnSoldier(hit.point);
             }
+            else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_CASTLE)))
+            {
+                blueCastle.GetComponent<BlueCastle>().toggleBaseMenu();
+            }
             else if (Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_FLOOR)))
             {
                 foreach (GameObject unit in selectedUnits)
@@ -148,6 +161,10 @@ public class Player : MonoBehaviour
                         unit.GetComponent<Soldier>().Defend(hit.point);
                     }
                 }
+            }
+            else if(Physics.Raycast(ray, out hit, raycastLength, LayerMask.GetMask(LAYER_UNIT_UI))) 
+            {
+                blueCastle.GetComponent<BlueCastle>().toggleCurrentUnit();
             }
         }
         else
@@ -230,6 +247,7 @@ public class Player : MonoBehaviour
         unit.GetComponent<TeamColors>().SetDefaultSelectedMaterial();
         selectedUnits.Add(unit);
         if (unit.layer == LayerMask.NameToLayer(LAYER_CASTLE) && unit.GetComponent<TeamColors>().IsBlueTeam()) isBlueCastleSelected = true;
+        if (unit.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && unit.GetComponent<TeamColors>().IsBlueTeam()) isUnitUISelected = true;
     }
 
     void deselectUnit(GameObject unit)
@@ -237,6 +255,7 @@ public class Player : MonoBehaviour
         unit.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Remove(unit);
         if (unit.layer == LayerMask.NameToLayer(LAYER_CASTLE) && unit.GetComponent<TeamColors>().IsBlueTeam()) isBlueCastleSelected = false;
+        if (unit.layer == LayerMask.NameToLayer(LAYER_UNIT_UI) && unit.GetComponent<TeamColors>().IsBlueTeam()) isUnitUISelected = false;
     }
 
     void clearSelectedUnits()
@@ -244,6 +263,7 @@ public class Player : MonoBehaviour
         foreach (GameObject selected in selectedUnits) selected.GetComponent<TeamColors>().SetDefaultMaterial();
         selectedUnits.Clear();
         isBlueCastleSelected = false;
+        isUnitUISelected = false;
     }
 
     /*---------Movement-----------*/
