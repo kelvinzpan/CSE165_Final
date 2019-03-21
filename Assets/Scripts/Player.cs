@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     private bool isDraggingSlider;
 
     public LineRenderer raycastLine;
+    public LineRenderer meteorRaycastLine;
+    private Ray leftHandRay;
+    private bool isCastingMeteor;
     public LineRenderer rectangularSelectionLine;
     public GameObject rectangularSelectionBox;
     public GameObject blueCastle;
@@ -269,6 +272,7 @@ public class Player : MonoBehaviour
             rectangularSelectionBox.gameObject.SetActive(false);
         }
 
+        listenAndCastMeteor();
         listenAndExecuteFlying();
     }
 
@@ -434,6 +438,52 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void renderBezierCurve(Vector3 start, Vector3 end, Vector3 control) {
+        LineRenderer rayRenderer = meteorRaycastLine.GetComponent<LineRenderer>();
+        rayRenderer.positionCount = 50;
+        Vector3[] positions = new Vector3[50];
+        positions[0] = leftHand.transform.position;
+        //first point should stay where the controller is, start i at 1
+
+        //Instead of time since we want to do it 1 frame, just do it 50 times and have 50 positions in the ray renderer
+        for (int i = 2; i < 50 + 1; i++) {
+            //since t in lert should be between 0 and 1, must change i so its between 0 to 1
+            float t = i / 50.0f;
+
+            Vector3 q0 = Vector3.Lerp(start, control, t);
+            Vector3 q1 = Vector3.Lerp(control, end, t);
+            Vector3 q2 = Vector3.Lerp(q0, q1, t);
+
+            positions[i - 1] = q2;
+        }
+
+        rayRenderer.SetPositions(positions);
+    }
+
+    void listenAndCastMeteor() {
+        Vector3 rayEndPos = meteorRaycastLine.GetComponent<LineRenderer>().GetPosition(1);
+        if (SteamVR_Input.GetBooleanAction("CastMeteor").GetStateDown(SteamVR_Input_Sources.LeftHand)) {
+            Debug.Log("pressed down");
+            isCastingMeteor = true;
+            meteorRaycastLine.GetComponent<LineRenderer>().enabled = true;
+        }
+        if (isCastingMeteor) {
+            Vector3 endPos = meteorRaycastLine.GetComponent<LineRenderer>().GetPosition(1);
+            //half way along the ray?
+            Vector3 controlPos = leftHandRay.GetPoint(100.0f / 2);
+            endPos.y = 0.0f;
+            controlPos.y += 25.0f;
+            renderBezierCurve(leftHandRay.origin, endPos, controlPos);
+            // Set the flag, so the moment the trigger isn't held we can teleport
+            rayEndPos = endPos;
+        }
+        if (SteamVR_Input.GetBooleanAction("CastMeteor").GetStateUp(SteamVR_Input_Sources.LeftHand)) {
+            Debug.Log("released");
+            blueCastle.GetComponent<BlueCastle>().UseMeteor(rayEndPos, blueCastle.GetComponent<BlueCastle>().getForce());
+            isCastingMeteor = false;
+            meteorRaycastLine.GetComponent<LineRenderer>().enabled = false;
+        }
+    }
 
     /*----------VR UI-------------*/
     void anchorUIToLeftController() {
@@ -441,5 +491,12 @@ public class Player : MonoBehaviour
                                                           leftHand.transform.position.y + 1.0f, 
                                                           leftHand.transform.position.z);
         leftControllerUI.transform.rotation = leftHand.transform.rotation;
+
+        //meteorRaycastLine.setPosition(0, leftHand.transform.position);
+        leftHandRay = new Ray(leftHand.transform.position, leftHand.transform.forward);
+        meteorRaycastLine.GetComponent<LineRenderer>().positionCount = 2;
+        meteorRaycastLine.GetComponent<LineRenderer>().SetPosition(0, leftHand.transform.position);
+        meteorRaycastLine.GetComponent<LineRenderer>().SetPosition(1, leftHandRay.GetPoint(100.0f));
+        meteorRaycastLine.GetComponent<LineRenderer>().enabled = isCastingMeteor;
     }
 }

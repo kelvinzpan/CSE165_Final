@@ -25,8 +25,8 @@ public class BlueCastle : MonoBehaviour
     public float spawnCooldown;
 
     public GameObject meteor;
-    public float minMeteorCost;
-    public float maxMeteorCost;
+    public float minMeteorCost = 10;
+    public float maxMeteorCost = 25;
 
     private float currHP;
     private float currResource = 0.0f;
@@ -95,7 +95,7 @@ public class BlueCastle : MonoBehaviour
     public void UseMeteor(Vector3 location, float force) // force is float between 0 and 1
     {
         float cost = minMeteorCost + (maxMeteorCost - minMeteorCost) * force;
-        if (currResource > cost)
+        if (currResource >= cost)
         {
             SummonMeteor(new Vector2(location.x, location.z), force);
             currResource -= cost;
@@ -158,5 +158,9 @@ public class BlueCastle : MonoBehaviour
 
     public void changeSliderValue(float value) {
         fireBallSlider.GetComponent<Slider>().value += value;
+    }
+
+    public float getForce() {
+        return fireBallSlider.GetComponent<Slider>().value;
     }
 }
