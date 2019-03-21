@@ -28,13 +28,33 @@ public class Soldier : MonoBehaviour
     private float currHP;
     private float attackTimer = 0.0f;
 
+    public AudioClip spawn;
+    public AudioClip defend;
+    public AudioClip defend2;
+    public AudioClip fight1;
+    public AudioClip fight2;
+    public AudioClip die;
+    public AudioClip attack;
+    public AudioClip movement;
+    
+    public int soundCount = 8;
+    private AudioClip[] allClips;
+    private AudioSource[] allSources;
+
     const string LAYER_CASTLE = "Castle";
     const string LAYER_SOLDIER = "Soldier";
     const string LAYER_FLOOR = "Floor";
 
+    void Awake() {
+        AudioClip[] clips = { spawn, defend, defend2, fight1, fight2, die, attack, movement};
+        allClips = clips;
+        attachAudioSource();
+        allSources = gameObject.GetComponents<AudioSource>();
+    }
     // Start is called before the first frame update
     void Start()
     {
+        allSources[0].Play();
         this.transform.localScale = new Vector3(this.transform.localScale.x, soldierHeight, this.transform.localScale.z);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.localScale.y / 2.0f, this.transform.position.z);
 
@@ -42,11 +62,33 @@ public class Soldier : MonoBehaviour
         currHP = maxHP;
     }
 
+    void attachAudioSource() {
+        for(int i = 0; i < soundCount; i++) {
+
+            AudioSource audio = gameObject.AddComponent<AudioSource>() as AudioSource;
+            audio.clip = allClips[i];
+            audio.spatialize = true;
+            audio.spatializePostEffects = true;
+            //makes it 3d
+            audio.spatialBlend = 1.0f;
+            audio.rolloffMode = AudioRolloffMode.Linear;
+            audio.minDistance = 0.03f;
+            audio.maxDistance = 100.0f;
+            if(i == 0) {
+                audio.playOnAwake = true;
+                audio.priority = (int)Random.Range(50.0f, 200.0f);
+            } else {
+                audio.playOnAwake = false;
+            }
+
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         attackTimer = Mathf.Max(attackTimer - Time.deltaTime, 0.0f);
-
+        
         if (currState == Command.Attacking)
         {
             if (attackTarget && !isSameTeam(attackTarget))
@@ -155,6 +197,7 @@ public class Soldier : MonoBehaviour
 
     public void Attack(GameObject target)
     {
+        allSources[2].Play();
         ClearCommandState();
         currState = Command.Attacking;
         attackTarget = target;
@@ -162,6 +205,11 @@ public class Soldier : MonoBehaviour
 
     public void Defend(Vector3 location)
     {
+        if(!allSources[0].isPlaying) {
+            int random = (int)Random.Range(1.0f, 2.99f);
+            allSources[random].Play();
+        }
+            
         ClearCommandState();
         currState = Command.Defending;
         defendTarget = new Vector2(location.x, location.z);
@@ -194,12 +242,15 @@ public class Soldier : MonoBehaviour
         if (currAggroBox) Destroy(currAggroBox);
         if (defendAggroTarget) defendAggroTarget = null;
 
+        // Clear fight sounds
+        allSources[3].Stop();
+        allSources[4].Stop();
         // Gathering state
         if (gatherTarget) gatherTarget = null;
         if (gatherBase) gatherBase = null;
 
         // Flee state
-        
+
     }
 
     private void MoveTowards(Vector2 location)
@@ -224,6 +275,10 @@ public class Soldier : MonoBehaviour
         {
             if (attackTimer <= 0.0f)
             {
+                int indx = (int)Random.Range(3.0f, 4.99f);
+                if(!allSources[indx].isPlaying) {
+                    allSources[indx].Play();
+                }
                 // TODO Play attack animation
 
                 if (target.layer == LayerMask.NameToLayer(LAYER_SOLDIER))
@@ -241,6 +296,8 @@ public class Soldier : MonoBehaviour
         }
         else
         {
+            allSources[3].Stop();
+            allSources[4].Stop();
             Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
             MoveTowards(targetPos);
         }
@@ -248,6 +305,9 @@ public class Soldier : MonoBehaviour
 
     private void Die()
     {
+        allSources[3].Stop();
+        allSources[4].Stop();
+        allSources[5].Play();
         Destroy(currAggroBox);
         Destroy(this.gameObject);
     }

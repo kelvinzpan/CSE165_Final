@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1517539493514907546}
   - component: {fileID: 1517539493514907547}
   - component: {fileID: 4784683758503621237}
-  - component: {fileID: 8342946935010627415}
+  - component: {fileID: 8194262243807327800}
   m_Layer: 9
   m_Name: Soldier
   m_TagString: Untagged
@@ -115,7 +115,16 @@ MonoBehaviour:
   attackSpeed: 0.1
   moveSpeed: 0.2
   gatherAmount: 3
---- !u!114 &8342946935010627415
+  spawn: {fileID: 8300000, guid: 74d0438a3c05f3f40837f27b865a620f, type: 3}
+  defend: {fileID: 8300000, guid: b696b128981dcf54e9b9ab4446af17fd, type: 3}
+  defend2: {fileID: 8300000, guid: 77316668d48d5834ea202c473efac7fc, type: 3}
+  fight1: {fileID: 8300000, guid: 8487bb31a75718e44b5349396903e54b, type: 3}
+  fight2: {fileID: 8300000, guid: e3f4cfdbc68a8ab4a99488adc0ed569a, type: 3}
+  die: {fileID: 8300000, guid: 90a83fac07a74e744a3d98a2e393cff2, type: 3}
+  attack: {fileID: 8300000, guid: 4145bf661c425654ead6c9548ab1fe2f, type: 3}
+  movement: {fileID: 8300000, guid: 5e792c6ac4805054bb5805da20c4bb48, type: 3}
+  soundCount: 8
+--- !u!114 &8194262243807327800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,5 +143,5 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: e8543c882ed35f84fbd0365b2b81ee46, type: 2}
   redHoverMaterial: {fileID: 2100000, guid: 16bf48593ef55bb4c88999945468ea70, type: 2}
   redSelectedMaterial: {fileID: 2100000, guid: 3b03bfe4d4523fe448cc2d2e1ea44725, type: 2}
-  yellowMaterial: {fileID: 0}
-  yellowHoverMaterial: {fileID: 0}
+  yellowMaterial: {fileID: 2100000, guid: 2663f1918a0b1fc4693bb25e2e4f7ca3, type: 2}
+  yellowHoverMaterial: {fileID: 2100000, guid: 18b3788450734e041bb3c697df26ab77, type: 2}

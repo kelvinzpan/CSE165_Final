@@ -65,7 +65,8 @@ public class Player : MonoBehaviour
         // only want to know if pressed
         bool usingCommandInput = SteamVR_Input.GetBooleanAction("CommandInput").GetStateDown(SteamVR_Input_Sources.RightHand);
 
-        bool selectHeldDown = (usingSelectInput && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateUp(SteamVR_Input_Sources.RightHand));
+        bool selectHeldDown = (usingSelectInput && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateUp(SteamVR_Input_Sources.RightHand)
+                                                && !SteamVR_Input.GetBooleanAction("SelectInput").GetStateDown(SteamVR_Input_Sources.RightHand));
         raycastLine.SetPosition(0, raycastStart + raycastOffset);
         raycastLine.SetPosition(1, raycastStart + raycastDir * raycastLength);
 
@@ -152,6 +153,7 @@ public class Player : MonoBehaviour
                     }
                     else if (currObj.layer == LayerMask.NameToLayer(LAYER_SOLDIER) && currObj.GetComponent<TeamColors>().IsBlueTeam()) // Select blue soldiers
                     {
+                        currObj.GetComponents<AudioSource>()[0].Play();
                         dehoverUnit(currObj);
                         selectUnit(currObj);
                         if (isBlueCastleSelected) deselectUnit(blueCastle);
@@ -165,10 +167,8 @@ public class Player : MonoBehaviour
                 }
 
             }
-
             // release all boolean
-            if (SteamVR_Input.GetBooleanAction("CommandInput").GetStateUp(SteamVR_Input_Sources.RightHand)) 
-            {
+            if (SteamVR_Input.GetBooleanAction("CommandInput").GetStateUp(SteamVR_Input_Sources.RightHand)) {
                 isRectangularSelecting = false;
                 isBlueCastleSelected = false;
                 isUnitUISelected = false;
@@ -230,6 +230,7 @@ public class Player : MonoBehaviour
                 foreach (GameObject hovered in hoveredUnits)
                 {
                     if (!selectedUnits.Contains(hovered)) toSelect.Add(hovered);
+                    hovered.GetComponents<AudioSource>()[0].Play();
                 }
 
                 clearHoveredUnits();
